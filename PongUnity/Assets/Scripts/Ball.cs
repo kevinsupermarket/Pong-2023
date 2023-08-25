@@ -5,19 +5,14 @@ using UnityEngine;
 
 public class Ball : MonoBehaviour
 {
+    public Rigidbody2D rb;
     public Vector3 direction;
     public float moveSpeed;
+    public bool isScored;
 
-
-    // Update is called once per frame
-    void Update()
+    private void Start()
     {
-        Move();
-    }
-
-    public void Move()
-    {
-        transform.position += moveSpeed * Time.deltaTime * direction;
+        rb.velocity = Vector2.left * moveSpeed;
     }
 
     public void Bounce(Vector3 newDirection)
@@ -29,19 +24,14 @@ public class Ball : MonoBehaviour
     {
         yield return new WaitForSeconds(2);
 
+        isScored = false;
+
         transform.position = Vector3.zero;
 
         // move towards winner of last point
         direction = -direction;
+        rb.velocity = Vector2.left * moveSpeed;
 
         yield break;
-    }
-
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        if (collision.gameObject.GetComponent<Wall>())
-        {
-            Bounce(new Vector3(direction.x, -direction.y, direction.z));
-        }
     }
 }
