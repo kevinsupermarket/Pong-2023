@@ -11,6 +11,7 @@ public class Player : MonoBehaviour
     public KeyCode upKey;
     public KeyCode leftKey;
     public KeyCode rightKey;
+    public KeyCode smashKey;
 
     public Vector3 spawnPoint;
     public float moveSpeed;
@@ -85,6 +86,12 @@ public class Player : MonoBehaviour
         if (collision.gameObject.GetComponent<Ball>())
         {
             collision.gameObject.GetComponent<Ball>().rb.velocity = new Vector2(-transform.position.x, hitForce);
+
+            // make smash timer later
+            if (Input.GetKeyDown(smashKey))
+            {
+                print("SMASH!");
+            }
         }
 
         if (collision.gameObject.GetComponent<Wall>())
