@@ -447,6 +447,7 @@ GameObject:
   - component: {fileID: 930682572}
   - component: {fileID: 930682571}
   - component: {fileID: 930682570}
+  - component: {fileID: 930682574}
   m_Layer: 0
   m_Name: Ceiling
   m_TagString: Untagged
@@ -593,6 +594,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &930682574
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 930682569}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b0dbe69aa767944591b74177b7fed53, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1352178997
 GameObject:
   m_ObjectHideFlags: 0
@@ -772,7 +785,7 @@ Rigidbody2D:
     m_Bits: 0
   m_Interpolate: 0
   m_SleepingMode: 1
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
   m_Constraints: 4
 --- !u!61 &1620026779
 BoxCollider2D:
@@ -1000,6 +1013,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3798725261a0c0442a29c3fed43f3a6e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isAI: 0
   moveSpeed: 6
   maxYPosition: 3.2
   upKey: 273
@@ -1142,7 +1156,7 @@ Rigidbody2D:
     m_Bits: 0
   m_Interpolate: 0
   m_SleepingMode: 1
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
   m_Constraints: 5
 --- !u!1 &1738573616
 GameObject:
@@ -1323,7 +1337,7 @@ Rigidbody2D:
     m_Bits: 0
   m_Interpolate: 0
   m_SleepingMode: 1
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
   m_Constraints: 5
 --- !u!61 &1941149533
 BoxCollider2D:
@@ -1449,7 +1463,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3798725261a0c0442a29c3fed43f3a6e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 6
+  isAI: 1
+  moveSpeed: 3
   maxYPosition: 3.2
   upKey: 119
   downKey: 115
@@ -1638,6 +1653,7 @@ GameObject:
   - component: {fileID: 2044372735}
   - component: {fileID: 2044372734}
   - component: {fileID: 2044372733}
+  - component: {fileID: 2044372737}
   m_Layer: 0
   m_Name: Floor
   m_TagString: Untagged
@@ -1784,6 +1800,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2044372737
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2044372732}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b0dbe69aa767944591b74177b7fed53, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2111950024
 GameObject:
   m_ObjectHideFlags: 0
@@ -1895,10 +1923,10 @@ SceneRoots:
   - {fileID: 197012568}
   - {fileID: 930682573}
   - {fileID: 2044372736}
-  - {fileID: 1995713924}
-  - {fileID: 186773931}
   - {fileID: 1684305033}
   - {fileID: 1941149535}
   - {fileID: 1620026781}
+  - {fileID: 1995713924}
+  - {fileID: 186773931}
   - {fileID: 2111950028}
   - {fileID: 1644840365}

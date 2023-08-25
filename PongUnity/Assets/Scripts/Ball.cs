@@ -31,6 +31,17 @@ public class Ball : MonoBehaviour
 
         transform.position = Vector3.zero;
 
+        // move towards winner of last point
+        direction = -direction;
+
         yield break;
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.GetComponent<Wall>())
+        {
+            Bounce(new Vector3(direction.x, -direction.y, direction.z));
+        }
     }
 }

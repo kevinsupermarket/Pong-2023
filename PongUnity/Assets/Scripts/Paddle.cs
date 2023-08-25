@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Paddle : MonoBehaviour
 {
+    public bool isAI;
     public float moveSpeed;
     public float maxYPosition;
     public KeyCode upKey;
@@ -13,13 +14,19 @@ public class Paddle : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // let this thing move itself
+        if (isAI)
+        {
+            MoveAuto();
+        }
+
         // let's move this thing
-        if (Input.GetKey(upKey) && transform.position.y < maxYPosition)
+        if (!isAI && Input.GetKey(upKey) && transform.position.y < maxYPosition)
         {
             MoveUp();
         }
 
-        if (Input.GetKey(downKey) && transform.position.y > -maxYPosition)
+        if (!isAI && Input.GetKey(downKey) && transform.position.y > -maxYPosition)
         {
             MoveDown();
         }
@@ -35,11 +42,26 @@ public class Paddle : MonoBehaviour
         transform.position += moveSpeed * Time.deltaTime * Vector3.down;
     }
 
+    public void MoveAuto()
+    {
+        // if ball is above paddle, move up
+        if (FindObjectOfType<Ball>().transform.position.y > transform.position.y && transform.position.y < maxYPosition)
+        {
+            transform.position += moveSpeed * Time.deltaTime * Vector3.up;
+        }
+
+        // if ball is below paddle, move down
+        if (FindObjectOfType<Ball>().transform.position.y < transform.position.y && transform.position.y > -maxYPosition)
+        {
+            transform.position += moveSpeed * Time.deltaTime * Vector3.down;
+        }
+    }
+
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.GetComponent<Ball>())
         {
-            Vector3 hitDirection = new Vector3(ballHitXDirection, 0, 0);
+            Vector3 hitDirection = new(ballHitXDirection, collision.transform.position.y - transform.position.y, 0);
             collision.gameObject.GetComponent<Ball>().Bounce(hitDirection);
         }
     }
