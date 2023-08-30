@@ -1,10 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class Player : MonoBehaviour
 {
     public bool isAI;
+
+    Ball ball;
 
     public Rigidbody2D rb;
 
@@ -15,14 +18,28 @@ public class Player : MonoBehaviour
 
     public Vector3 spawnPoint;
     public float moveSpeed;
+    public int maxJumpCount;
+    public int currentJumpCount;
     public float jumpForce;
+    public bool hasJumped;
     public bool isGrounded;
     public float hitForce;
+    public float courtSide;
+
+    public static Player Instance;
 
 
     void Awake()
     {
+        Instance = this;
         spawnPoint = transform.position;
+    }
+
+    private void Start()
+    {
+        ball = FindObjectOfType<Ball>();
+        courtSide = Mathf.Sign(transform.position.x);
+        currentJumpCount = maxJumpCount;
     }
 
     // Update is called once per frame
@@ -35,9 +52,14 @@ public class Player : MonoBehaviour
         }
 
         // let's move this thing
-        if (!isAI && Input.GetKeyDown(upKey) && isGrounded)
+        if (!isAI && Input.GetKeyDown(upKey) && currentJumpCount > 0)
         {
             Jump();
+        }
+
+        if (isGrounded && !hasJumped)
+        {
+            currentJumpCount = maxJumpCount;
         }
 
         if (!isAI && Input.GetKey(leftKey))
@@ -63,21 +85,29 @@ public class Player : MonoBehaviour
 
     public void Jump()
     {
+        hasJumped = true;
         rb.velocity = new Vector2(rb.velocity.x, jumpForce);
+        currentJumpCount--;
     }
 
     public void MoveAuto()
     {
-        // if ball is above paddle, move up
-        if (FindObjectOfType<Ball>().transform.position.y > transform.position.y)
+        // if ball is to the right of player, move right
+        if (ball.transform.position.x > transform.position.x && ball.transform.position.x - transform.position.x < 3 && Mathf.Sign(transform.position.x) == courtSide)
         {
-            transform.position += moveSpeed * Time.deltaTime * Vector3.up;
+            MoveRight();
         }
 
-        // if ball is below paddle, move down
-        if (FindObjectOfType<Ball>().transform.position.y < transform.position.y)
+        // if ball is to the left of player, move left
+        if (ball.transform.position.x < transform.position.x && ball.transform.position.x - transform.position.x > -3 && Mathf.Sign(transform.position.x) == courtSide)
         {
-            transform.position += moveSpeed * Time.deltaTime * Vector3.down;
+            MoveLeft();
+        }
+
+        // if ball is a certain distance above player, jump
+        if (ball.transform.position.y > transform.position.y + 1 && currentJumpCount > 0)
+        {
+            Jump();
         }
     }
 
@@ -86,17 +116,12 @@ public class Player : MonoBehaviour
         if (collision.gameObject.GetComponent<Ball>())
         {
             collision.gameObject.GetComponent<Ball>().rb.velocity = new Vector2(-transform.position.x, hitForce);
-
-            // make smash timer later
-            if (Input.GetKeyDown(smashKey))
-            {
-                print("SMASH!");
-            }
         }
 
         if (collision.gameObject.GetComponent<Wall>())
         {
             isGrounded = true;
+            hasJumped = false;
         }
     }
 
@@ -108,9 +133,23 @@ public class Player : MonoBehaviour
         }
     }
 
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        if (collision.gameObject.GetComponent<Ball>())
+        {
+            if (Input.GetKeyDown(smashKey))
+            {
+                collision.gameObject.GetComponent<Ball>().rb.velocity = new Vector2(-transform.position.x * 5, -hitForce);
+            }
+        }
+    }
+
     public IEnumerator ResetPosition()
     {
-        yield return new WaitForSeconds(2);
+        if (!GameManager.Instance.gameOver)
+        {
+            yield return new WaitForSeconds(2);
+        }
 
         transform.position = spawnPoint;
 
