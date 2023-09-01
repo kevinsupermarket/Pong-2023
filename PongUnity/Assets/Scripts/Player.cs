@@ -1,6 +1,8 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Player : MonoBehaviour
@@ -17,14 +19,22 @@ public class Player : MonoBehaviour
     public KeyCode smashKey;
 
     public Vector3 spawnPoint;
+
     public float moveSpeed;
+
     public int maxJumpCount;
     public int currentJumpCount;
     public float jumpForce;
     public bool hasJumped;
     public bool isGrounded;
+
     public float hitForce;
+
     public float courtSide;
+
+    public float ballXRange;
+    public float ballYRange;
+
 
     public static Player Instance;
 
@@ -73,6 +83,40 @@ public class Player : MonoBehaviour
         }
     }
 
+    public void MoveAuto()
+    {
+        if ((courtSide == -1 && transform.position.x <= courtSide) || (courtSide == 1 && transform.position.x >= courtSide))
+        {
+            // if ball is to the left of player, move left
+            if (ball.transform.position.x < transform.position.x && ball.transform.position.x > transform.position.x - ballXRange)
+            {
+                MoveLeft();
+
+                // if ball is a certain distance above player, jump
+                if (ball.transform.position.y > transform.position.y && ball.transform.position.y < transform.position.y + ballYRange && currentJumpCount > 0)
+                {
+                    Jump();
+                }
+            }
+
+            // if ball is to the right of player, move right
+            if (ball.transform.position.x > transform.position.x && ball.transform.position.x < transform.position.x + ballXRange)
+            {
+                MoveRight();
+
+                if (ball.transform.position.y > transform.position.y && ball.transform.position.y < transform.position.y + ballYRange && currentJumpCount > 0)
+                {
+                    Jump();
+                }
+            }
+        }
+
+        if (Mathf.Sign(ball.transform.position.x) != courtSide)
+        {
+            MoveToSpawn();
+        }
+    }
+
     public void MoveLeft()
     {
         transform.position += moveSpeed * Time.deltaTime * Vector3.left;
@@ -90,24 +134,15 @@ public class Player : MonoBehaviour
         currentJumpCount--;
     }
 
-    public void MoveAuto()
+    public void MoveToSpawn()
     {
-        // if ball is to the right of player, move right
-        if (ball.transform.position.x > transform.position.x && ball.transform.position.x - transform.position.x < 3 && Mathf.Sign(transform.position.x) == courtSide)
-        {
-            MoveRight();
-        }
-
-        // if ball is to the left of player, move left
-        if (ball.transform.position.x < transform.position.x && ball.transform.position.x - transform.position.x > -3 && Mathf.Sign(transform.position.x) == courtSide)
+        if (transform.position.x > spawnPoint.x)
         {
             MoveLeft();
         }
-
-        // if ball is a certain distance above player, jump
-        if (ball.transform.position.y > transform.position.y + 1 && currentJumpCount > 0)
+        else if (transform.position.x < spawnPoint.x)
         {
-            Jump();
+            MoveRight();
         }
     }
 
