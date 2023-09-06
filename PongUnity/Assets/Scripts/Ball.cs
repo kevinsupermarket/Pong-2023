@@ -7,10 +7,10 @@ public class Ball : MonoBehaviour
 {
     public Rigidbody2D rb;
     public TrailRenderer ballTrail;
-    public Vector3 direction;
     public Vector2 lastVelocity;
     public float moveSpeed;
     public bool isScored;
+    public float ownedBy;
 
     public static Ball Instance;
 
@@ -23,16 +23,14 @@ public class Ball : MonoBehaviour
     private void Start()
     {
         rb.velocity = Vector2.left * moveSpeed;
+
+        // -1 is "unowned" value, 0 is home, 1 is away
+        ownedBy = -1;
     }
 
     private void Update()
     {
         lastVelocity = rb.velocity;
-    }
-
-    public void Bounce(Vector3 newDirection)
-    {
-        direction = newDirection;
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -51,6 +49,7 @@ public class Ball : MonoBehaviour
         }
 
         isScored = false;
+        ownedBy = -1;
 
         transform.position = Vector3.zero;
 
@@ -61,7 +60,6 @@ public class Ball : MonoBehaviour
         }
 
         // move towards winner of last point
-        direction = -direction;
         rb.velocity = Vector2.left * moveSpeed;
 
         yield break;

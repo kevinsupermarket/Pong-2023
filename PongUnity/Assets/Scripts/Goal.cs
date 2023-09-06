@@ -6,29 +6,29 @@ using static UnityEditor.Timeline.TimelinePlaybackControls;
 
 public class Goal : MonoBehaviour
 {
-    public int playerAssignedTo;
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.GetComponent<Ball>() && !collision.gameObject.GetComponent<Ball>().isScored)
+        if (collision.gameObject.GetComponent<Ball>() && !collision.gameObject.GetComponent<Ball>().isScored && collision.gameObject.GetComponent<Ball>().ownedBy != -1)
         {
+            // declare the ball as "scored" if the ball is owned by a team and has collided with this object
             collision.gameObject.GetComponent<Ball>().isScored = true;
 
-            if (playerAssignedTo == 0)
+            if (collision.gameObject.GetComponent<Ball>().ownedBy == 0)
             {
-                GameManager.Instance.p1Score += 1;
+                GameManager.Instance.homeScore += 1;
 
-                if (GameManager.Instance.p1Score == GameManager.Instance.maxScore)
+                if (GameManager.Instance.homeScore == GameManager.Instance.maxScore)
                 {
                     GameManager.Instance.gameOver = true;
                 }
             }
 
-            if (playerAssignedTo == 1)
+            if (collision.gameObject.GetComponent<Ball>().ownedBy == 1)
             {
-                GameManager.Instance.p2Score += 1;
+                GameManager.Instance.awayScore += 1;
 
-                if (GameManager.Instance.p2Score == GameManager.Instance.maxScore)
+                if (GameManager.Instance.awayScore == GameManager.Instance.maxScore)
                 {
                     GameManager.Instance.gameOver = true;
                 }
@@ -37,54 +37,6 @@ public class Goal : MonoBehaviour
             if (!GameManager.Instance.gameOver)
             {
                 StartCoroutine(collision.gameObject.GetComponent<Ball>().ResetPosition());
-
-                foreach (Paddle obj in FindObjectsOfType<Paddle>())
-                {
-                    StartCoroutine(obj.ResetPosition());
-                }
-
-                foreach (Player obj in FindObjectsOfType<Player>())
-                {
-                    StartCoroutine(obj.ResetPosition());
-                }
-            }
-        }
-    }
-
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.gameObject.GetComponent<Ball>() && !collision.gameObject.GetComponent<Ball>().isScored)
-        {
-            collision.gameObject.GetComponent<Ball>().isScored = true;
-
-            if (playerAssignedTo == 0)
-            {
-                GameManager.Instance.p1Score += 1;
-
-                if (GameManager.Instance.p1Score == GameManager.Instance.maxScore)
-                {
-                    GameManager.Instance.gameOver = true;
-                }
-            }
-
-            if (playerAssignedTo == 1)
-            {
-                GameManager.Instance.p2Score += 1;
-
-                if (GameManager.Instance.p2Score == GameManager.Instance.maxScore)
-                {
-                    GameManager.Instance.gameOver = true;
-                }
-            }
-
-            if (!GameManager.Instance.gameOver)
-            {
-                StartCoroutine(collision.gameObject.GetComponent<Ball>().ResetPosition());
-
-                foreach (Paddle obj in FindObjectsOfType<Paddle>())
-                {
-                    StartCoroutine(obj.ResetPosition());
-                }
 
                 foreach (Player obj in FindObjectsOfType<Player>())
                 {
