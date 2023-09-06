@@ -89,10 +89,25 @@ public class Player : MonoBehaviour
         {
             MoveRight();
         }
+<<<<<<< Updated upstream
+=======
+
+        // make sure player tag stays on player
+        playerTag.transform.position = new Vector3(transform.position.x, transform.position.y + 0.75f, transform.position.z);
+
+>>>>>>> Stashed changes
     }
 
     public void MoveAuto()
     {
+<<<<<<< Updated upstream
+=======
+        /* THIS NEEDS UPDATING!
+         - AI should be able to move anywhere between the left & right inner walls 
+        */
+
+
+>>>>>>> Stashed changes
         if ((courtSide == -1 && transform.position.x <= courtSide) || (courtSide == 1 && transform.position.x >= courtSide))
         {
             // if ball is to the left of player, move left
