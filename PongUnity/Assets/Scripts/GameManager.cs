@@ -9,14 +9,14 @@ public class GameManager : MonoBehaviour
 {
     public KeyCode startKey;
 
-    public TMP_Text p1ScoreText;
-    public TMP_Text p2ScoreText;
+    public TMP_Text homeScoreText;
+    public TMP_Text awayScoreText;
     public TMP_Text winText;
 
     Player[] players;
     Ball ball;
 
-    public int p1Score, p2Score, maxScore;
+    public int homeScore, awayScore, maxScore;
     public bool gameOver;
 
     public static GameManager Instance;
@@ -35,14 +35,14 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        p1ScoreText.text = "" + p1Score;
-        p2ScoreText.text = "" + p2Score;
+        homeScoreText.text = "" + homeScore;
+        awayScoreText.text = "" + awayScore;
 
-        if (p1Score == maxScore)
+        if (homeScore == maxScore)
         {
             winText.text = "PLAYER 1 IS\nWINNER\n\nPRESS " + startKey + " TO\nRESTART";
         }
-        else if (p2Score == maxScore)
+        else if (awayScore == maxScore)
         {
             winText.text = "PLAYER 2 IS\nWINNER\n\nPRESS " + startKey + " TO\nRESTART";
         }
@@ -55,10 +55,10 @@ public class GameManager : MonoBehaviour
 
     public void RestartGame()
     {
-        p1Score = 0;
-        p2Score = 0;
-        p1ScoreText.text = "" + p1Score;
-        p2ScoreText.text = "" + p2Score;
+        homeScore = 0;
+        awayScore = 0;
+        homeScoreText.text = "" + homeScore;
+        awayScoreText.text = "" + awayScore;
         winText.text = "";
 
         ball.StartCoroutine(ball.ResetPosition());
