@@ -12,6 +12,7 @@ public class Player : MonoBehaviour
     Ball ball;
 
     public Rigidbody2D rb;
+    public TMP_Text playerTag;
 
     public KeyCode upKey;
     public KeyCode leftKey;
@@ -50,11 +51,18 @@ public class Player : MonoBehaviour
         ball = FindObjectOfType<Ball>();
         courtSide = Mathf.Sign(transform.position.x);
         currentJumpCount = maxJumpCount;
+
+        if (!isAI)
+        {
+            playerTag.text = gameObject.name;
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
+        playerTag.transform.position = new Vector3(transform.position.x, transform.position.y + 2, transform.position.z);
+
         // let this thing move itself
         if (isAI)
         {
