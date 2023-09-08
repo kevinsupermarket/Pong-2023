@@ -198,21 +198,25 @@ MonoBehaviour:
   isAI: 1
   rb: {fileID: 127389869}
   playerTag: {fileID: 155465175}
-  upKey: 273
-  leftKey: 276
-  rightKey: 275
-  smashKey: 305
+  upKey: 264
+  leftKey: 260
+  rightKey: 262
+  smashKey: 263
   spawnPoint: {x: 0, y: 0, z: 0}
-  moveSpeed: 5
-  maxJumpCount: 2
-  currentJumpCount: 0
+  moveSpeed: 4000
+  maxMoveSpeed: 3
   jumpForce: 7
+  maxJumpCount: 3
+  currentJumpCount: 0
   hasJumped: 0
   isGrounded: 0
   hitForce: 10
+  maxHitCooldown: 0.4
+  currentHitCooldown: 0
+  hasHit: 0
   courtSide: 0
   teamIdentity: 0
-  ballXRange: 3
+  ballXRange: 5
   ballYRange: 5
 --- !u!50 &127389869
 Rigidbody2D:
@@ -240,7 +244,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 1
-  m_Constraints: 5
+  m_Constraints: 4
 --- !u!61 &127389870
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -273,7 +277,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -1, y: 0.5}
+  m_Offset: {x: 0.9, y: 0.5}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -284,7 +288,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 2, y: 2}
+  m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
 --- !u!61 &127389871
 BoxCollider2D:
@@ -318,7 +322,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: -0.025, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -329,7 +333,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 0.75, y: 1}
   m_EdgeRadius: 0
 --- !u!212 &127389872
 SpriteRenderer:
@@ -1056,6 +1060,7 @@ MonoBehaviour:
   homeScoreText: {fileID: 1352178999}
   awayScoreText: {fileID: 1738573618}
   winText: {fileID: 2141779810}
+  scoreLine: {fileID: 0}
   homeScore: 0
   awayScore: 0
   maxScore: 10
@@ -1514,7 +1519,7 @@ Rigidbody2D:
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
   m_Mass: 1
-  m_LinearDrag: 0
+  m_LinearDrag: 1
   m_AngularDrag: 0.05
   m_GravityScale: 1
   m_Material: {fileID: 0}
@@ -1527,7 +1532,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 1
-  m_Constraints: 5
+  m_Constraints: 4
 --- !u!61 &370895498
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -1560,7 +1565,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 0.025, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -1571,7 +1576,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 0.75, y: 1}
   m_EdgeRadius: 0
 --- !u!212 &370895499
 SpriteRenderer:
@@ -1661,16 +1666,20 @@ MonoBehaviour:
   rightKey: 100
   smashKey: 113
   spawnPoint: {x: 0, y: 0, z: 0}
-  moveSpeed: 5
-  maxJumpCount: 2
-  currentJumpCount: 0
+  moveSpeed: 4000
+  maxMoveSpeed: 3
   jumpForce: 7
+  maxJumpCount: 3
+  currentJumpCount: 0
   hasJumped: 0
   isGrounded: 0
   hitForce: 10
+  maxHitCooldown: 0.4
+  currentHitCooldown: 0
+  hasHit: 0
   courtSide: 0
   teamIdentity: 0
-  ballXRange: 3
+  ballXRange: 5
   ballYRange: 5
 --- !u!61 &370895502
 BoxCollider2D:
@@ -1704,7 +1713,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 1, y: 0.5}
+  m_Offset: {x: 0.9, y: 0.5}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -1715,7 +1724,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 2, y: 2}
+  m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
 --- !u!1 &447607907
 GameObject:
@@ -1758,16 +1767,20 @@ MonoBehaviour:
   rightKey: 100
   smashKey: 113
   spawnPoint: {x: 0, y: 0, z: 0}
-  moveSpeed: 5
-  maxJumpCount: 2
-  currentJumpCount: 0
+  moveSpeed: 4000
+  maxMoveSpeed: 3
   jumpForce: 7
+  maxJumpCount: 3
+  currentJumpCount: 0
   hasJumped: 0
   isGrounded: 0
   hitForce: 10
+  maxHitCooldown: 0.4
+  currentHitCooldown: 0
+  hasHit: 0
   courtSide: 0
   teamIdentity: 0
-  ballXRange: 3
+  ballXRange: 5
   ballYRange: 5
 --- !u!50 &447607909
 Rigidbody2D:
@@ -1795,7 +1808,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 1
-  m_Constraints: 5
+  m_Constraints: 4
 --- !u!61 &447607910
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -1828,7 +1841,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 1, y: 0.5}
+  m_Offset: {x: 0.9, y: 0.5}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -1839,7 +1852,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 2, y: 2}
+  m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
 --- !u!61 &447607911
 BoxCollider2D:
@@ -1873,7 +1886,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 0.025, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -1884,7 +1897,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 0.75, y: 1}
   m_EdgeRadius: 0
 --- !u!212 &447607912
 SpriteRenderer:
@@ -2001,7 +2014,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 1
-  m_Constraints: 5
+  m_Constraints: 4
 --- !u!61 &479299522
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -2034,7 +2047,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: -0.025, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -2045,7 +2058,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 0.75, y: 1}
   m_EdgeRadius: 0
 --- !u!212 &479299523
 SpriteRenderer:
@@ -2130,21 +2143,25 @@ MonoBehaviour:
   isAI: 1
   rb: {fileID: 479299521}
   playerTag: {fileID: 559432018}
-  upKey: 273
-  leftKey: 276
-  rightKey: 275
-  smashKey: 305
+  upKey: 264
+  leftKey: 260
+  rightKey: 262
+  smashKey: 263
   spawnPoint: {x: 0, y: 0, z: 0}
-  moveSpeed: 5
-  maxJumpCount: 2
-  currentJumpCount: 0
+  moveSpeed: 4000
+  maxMoveSpeed: 3
   jumpForce: 7
+  maxJumpCount: 3
+  currentJumpCount: 0
   hasJumped: 0
   isGrounded: 0
   hitForce: 10
+  maxHitCooldown: 0.4
+  currentHitCooldown: 0
+  hasHit: 0
   courtSide: 0
   teamIdentity: 0
-  ballXRange: 3
+  ballXRange: 5
   ballYRange: 5
 --- !u!61 &479299526
 BoxCollider2D:
@@ -2178,7 +2195,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -1, y: 0.5}
+  m_Offset: {x: 0.9, y: 0.5}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -2189,7 +2206,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 2, y: 2}
+  m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
 --- !u!1 &519420028
 GameObject:
@@ -2901,6 +2918,7 @@ GameObject:
   m_Component:
   - component: {fileID: 698063528}
   - component: {fileID: 698063527}
+  - component: {fileID: 698063529}
   m_Layer: 0
   m_Name: Score Line
   m_TagString: Untagged
@@ -2975,6 +2993,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 68096600}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &698063529
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 698063524}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 640aa21d60ce08c43babb67d8ef69691, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1045261702
 GameObject:
   m_ObjectHideFlags: 0
@@ -3851,7 +3881,7 @@ BoxCollider2D:
   m_GameObject: {fileID: 1620026777}
   m_Enabled: 1
   m_Density: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 66590f403604a8d46afc0f488465fb33, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -3971,6 +4001,7 @@ MonoBehaviour:
   ballTrail: {fileID: 240507983}
   lastVelocity: {x: 0, y: 0}
   moveSpeed: 5
+  isSpiked: 0
   isScored: 0
   ownedBy: 0
 --- !u!1 &1644840362
@@ -4484,16 +4515,20 @@ MonoBehaviour:
   rightKey: 100
   smashKey: 113
   spawnPoint: {x: 0, y: 0, z: 0}
-  moveSpeed: 5
-  maxJumpCount: 2
-  currentJumpCount: 0
+  moveSpeed: 4000
+  maxMoveSpeed: 3
   jumpForce: 7
+  maxJumpCount: 3
+  currentJumpCount: 0
   hasJumped: 0
   isGrounded: 0
   hitForce: 10
+  maxHitCooldown: 0.4
+  currentHitCooldown: 0
+  hasHit: 0
   courtSide: 0
   teamIdentity: 0
-  ballXRange: 3
+  ballXRange: 5
   ballYRange: 5
 --- !u!50 &2044327002
 Rigidbody2D:
@@ -4521,7 +4556,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 1
-  m_Constraints: 5
+  m_Constraints: 4
 --- !u!61 &2044327003
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -4554,7 +4589,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 1, y: 0.5}
+  m_Offset: {x: 0.9, y: 0.5}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -4565,7 +4600,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 2, y: 2}
+  m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
 --- !u!61 &2044327004
 BoxCollider2D:
@@ -4599,7 +4634,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 0.025, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -4610,7 +4645,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 0.75, y: 1}
   m_EdgeRadius: 0
 --- !u!212 &2044327005
 SpriteRenderer:
@@ -4716,21 +4751,25 @@ MonoBehaviour:
   isAI: 1
   rb: {fileID: 2080237461}
   playerTag: {fileID: 1507467084}
-  upKey: 273
-  leftKey: 276
-  rightKey: 275
-  smashKey: 305
+  upKey: 264
+  leftKey: 260
+  rightKey: 262
+  smashKey: 263
   spawnPoint: {x: 0, y: 0, z: 0}
-  moveSpeed: 5
-  maxJumpCount: 2
-  currentJumpCount: 0
+  moveSpeed: 4000
+  maxMoveSpeed: 3
   jumpForce: 7
+  maxJumpCount: 3
+  currentJumpCount: 0
   hasJumped: 0
   isGrounded: 0
   hitForce: 10
+  maxHitCooldown: 0.4
+  currentHitCooldown: 0
+  hasHit: 0
   courtSide: 0
   teamIdentity: 0
-  ballXRange: 3
+  ballXRange: 5
   ballYRange: 5
 --- !u!50 &2080237461
 Rigidbody2D:
@@ -4758,7 +4797,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 1
-  m_Constraints: 5
+  m_Constraints: 4
 --- !u!61 &2080237462
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -4791,7 +4830,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -1, y: 0.5}
+  m_Offset: {x: 0.9, y: 0.5}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -4802,7 +4841,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 2, y: 2}
+  m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
 --- !u!61 &2080237463
 BoxCollider2D:
@@ -4836,7 +4875,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: -0.025, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -4847,7 +4886,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 0.75, y: 1}
   m_EdgeRadius: 0
 --- !u!212 &2080237464
 SpriteRenderer:

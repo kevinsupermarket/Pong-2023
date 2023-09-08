@@ -7,8 +7,13 @@ public class Ball : MonoBehaviour
 {
     public Rigidbody2D rb;
     public TrailRenderer ballTrail;
+
     public Vector2 lastVelocity;
+
     public float moveSpeed;
+
+    public bool isSpiked;
+
     public bool isScored;
     public float ownedBy;
 
