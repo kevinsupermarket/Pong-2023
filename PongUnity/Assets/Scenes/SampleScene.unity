@@ -198,24 +198,21 @@ MonoBehaviour:
   isAI: 1
   rb: {fileID: 127389869}
   playerTag: {fileID: 155465175}
+  innerWall: {fileID: 0}
+  outerWall: {fileID: 0}
   upKey: 264
   leftKey: 260
   rightKey: 262
   smashKey: 263
-  spawnPoint: {x: 0, y: 0, z: 0}
   moveSpeed: 4000
   maxMoveSpeed: 3
   jumpForce: 7
   maxJumpCount: 3
-  currentJumpCount: 0
-  hasJumped: 0
-  isGrounded: 0
   hitForce: 10
-  maxHitCooldown: 0.4
-  currentHitCooldown: 0
-  hasHit: 0
-  courtSide: 0
-  teamIdentity: 0
+  maxHitCooldown: 0.75
+  isKnockedOut: 0
+  canRecover: 0
+  maxKOTime: 5
   ballXRange: 5
   ballYRange: 5
 --- !u!50 &127389869
@@ -277,7 +274,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.9, y: 0.5}
+  m_Offset: {x: 0.15, y: 0.5}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -322,7 +319,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.025, y: 0}
+  m_Offset: {x: 0.025, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -396,8 +393,8 @@ Transform:
   m_GameObject: {fileID: 127389867}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2, y: -4, z: 0}
-  m_LocalScale: {x: 0.75, y: 0.75, z: 1}
+  m_LocalPosition: {x: 2, y: -3.9, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 329077101}
@@ -855,7 +852,7 @@ GameObject:
   - component: {fileID: 188462208}
   - component: {fileID: 188462207}
   - component: {fileID: 188462206}
-  - component: {fileID: 188462205}
+  - component: {fileID: 188462210}
   - component: {fileID: 188462204}
   m_Layer: 0
   m_Name: Center Floor
@@ -874,18 +871,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4af02d76d9dd7e84e86e292be921b36d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &188462205
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 188462203}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9b0dbe69aa767944591b74177b7fed53, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!50 &188462206
@@ -1027,6 +1012,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 68096600}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &188462210
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 188462203}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b0dbe69aa767944591b74177b7fed53, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  canKnockOutPlayers: 0
 --- !u!1 &197012566
 GameObject:
   m_ObjectHideFlags: 0
@@ -1237,8 +1235,9 @@ GameObject:
   - component: {fileID: 307020672}
   - component: {fileID: 307020671}
   - component: {fileID: 307020670}
+  - component: {fileID: 307020674}
   m_Layer: 0
-  m_Name: Outer Wall Right
+  m_Name: KO Wall Right
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1356,9 +1355,9 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: -1
+  m_SortingOrder: 0
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.7490196, g: 0, b: 0, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -1383,6 +1382,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 68096600}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &307020674
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 307020669}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b0dbe69aa767944591b74177b7fed53, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  canKnockOutPlayers: 1
 --- !u!1 &329077100
 GameObject:
   m_ObjectHideFlags: 0
@@ -1639,8 +1651,8 @@ Transform:
   m_GameObject: {fileID: 370895495}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -4, y: -4, z: 0}
-  m_LocalScale: {x: 0.75, y: 0.75, z: 1}
+  m_LocalPosition: {x: -4, y: -3.9, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2096601743}
@@ -1661,24 +1673,21 @@ MonoBehaviour:
   isAI: 0
   rb: {fileID: 370895497}
   playerTag: {fileID: 1679037975}
+  innerWall: {fileID: 0}
+  outerWall: {fileID: 0}
   upKey: 119
   leftKey: 97
   rightKey: 100
   smashKey: 113
-  spawnPoint: {x: 0, y: 0, z: 0}
   moveSpeed: 4000
   maxMoveSpeed: 3
   jumpForce: 7
   maxJumpCount: 3
-  currentJumpCount: 0
-  hasJumped: 0
-  isGrounded: 0
   hitForce: 10
-  maxHitCooldown: 0.4
-  currentHitCooldown: 0
-  hasHit: 0
-  courtSide: 0
-  teamIdentity: 0
+  maxHitCooldown: 0.75
+  isKnockedOut: 0
+  canRecover: 0
+  maxKOTime: 5
   ballXRange: 5
   ballYRange: 5
 --- !u!61 &370895502
@@ -1713,7 +1722,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.9, y: 0.5}
+  m_Offset: {x: 0.15, y: 0.5}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -1762,24 +1771,21 @@ MonoBehaviour:
   isAI: 1
   rb: {fileID: 447607909}
   playerTag: {fileID: 1360924206}
+  innerWall: {fileID: 0}
+  outerWall: {fileID: 0}
   upKey: 119
   leftKey: 97
   rightKey: 100
   smashKey: 113
-  spawnPoint: {x: 0, y: 0, z: 0}
   moveSpeed: 4000
   maxMoveSpeed: 3
   jumpForce: 7
   maxJumpCount: 3
-  currentJumpCount: 0
-  hasJumped: 0
-  isGrounded: 0
   hitForce: 10
-  maxHitCooldown: 0.4
-  currentHitCooldown: 0
-  hasHit: 0
-  courtSide: 0
-  teamIdentity: 0
+  maxHitCooldown: 0.75
+  isKnockedOut: 0
+  canRecover: 0
+  maxKOTime: 5
   ballXRange: 5
   ballYRange: 5
 --- !u!50 &447607909
@@ -1841,7 +1847,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.9, y: 0.5}
+  m_Offset: {x: 0.15, y: 0.5}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -1960,8 +1966,8 @@ Transform:
   m_GameObject: {fileID: 447607907}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -2, y: -4, z: 0}
-  m_LocalScale: {x: 0.75, y: 0.75, z: 1}
+  m_LocalPosition: {x: -2, y: -3.9, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 153436313}
@@ -2047,7 +2053,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.025, y: 0}
+  m_Offset: {x: 0.025, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -2121,8 +2127,8 @@ Transform:
   m_GameObject: {fileID: 479299519}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 4, y: -4, z: 0}
-  m_LocalScale: {x: 0.75, y: 0.75, z: 1}
+  m_LocalPosition: {x: 4, y: -3.9, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1480024616}
@@ -2143,24 +2149,21 @@ MonoBehaviour:
   isAI: 1
   rb: {fileID: 479299521}
   playerTag: {fileID: 559432018}
+  innerWall: {fileID: 0}
+  outerWall: {fileID: 0}
   upKey: 264
   leftKey: 260
   rightKey: 262
   smashKey: 263
-  spawnPoint: {x: 0, y: 0, z: 0}
   moveSpeed: 4000
   maxMoveSpeed: 3
   jumpForce: 7
   maxJumpCount: 3
-  currentJumpCount: 0
-  hasJumped: 0
-  isGrounded: 0
   hitForce: 10
-  maxHitCooldown: 0.4
-  currentHitCooldown: 0
-  hasHit: 0
-  courtSide: 0
-  teamIdentity: 0
+  maxHitCooldown: 0.75
+  isKnockedOut: 0
+  canRecover: 0
+  maxKOTime: 5
   ballXRange: 5
   ballYRange: 5
 --- !u!61 &479299526
@@ -2195,7 +2198,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.9, y: 0.5}
+  m_Offset: {x: 0.15, y: 0.5}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -2312,8 +2315,9 @@ GameObject:
   - component: {fileID: 520016224}
   - component: {fileID: 520016223}
   - component: {fileID: 520016222}
+  - component: {fileID: 520016225}
   m_Layer: 0
-  m_Name: Right Floor
+  m_Name: KO Floor Right
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2458,6 +2462,19 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &520016225
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 520016220}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b0dbe69aa767944591b74177b7fed53, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  canKnockOutPlayers: 1
 --- !u!1 &559432017
 GameObject:
   m_ObjectHideFlags: 0
@@ -2604,8 +2621,9 @@ GameObject:
   - component: {fileID: 598353003}
   - component: {fileID: 598353002}
   - component: {fileID: 598353001}
+  - component: {fileID: 598353004}
   m_Layer: 0
-  m_Name: Left Floor
+  m_Name: KO Floor Left
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2750,6 +2768,19 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &598353004
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 598352999}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b0dbe69aa767944591b74177b7fed53, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  canKnockOutPlayers: 1
 --- !u!1 &642438570
 GameObject:
   m_ObjectHideFlags: 0
@@ -2762,8 +2793,9 @@ GameObject:
   - component: {fileID: 642438574}
   - component: {fileID: 642438573}
   - component: {fileID: 642438572}
+  - component: {fileID: 642438575}
   m_Layer: 0
-  m_Name: Outer Wall Left
+  m_Name: KO Wall Left
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2896,9 +2928,9 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: -1
+  m_SortingOrder: 0
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.7490196, g: 0, b: 0, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -2908,6 +2940,19 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &642438575
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 642438570}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b0dbe69aa767944591b74177b7fed53, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  canKnockOutPlayers: 1
 --- !u!1 &698063524
 GameObject:
   m_ObjectHideFlags: 0
@@ -3017,6 +3062,8 @@ GameObject:
   - component: {fileID: 1045261705}
   - component: {fileID: 1045261704}
   - component: {fileID: 1045261703}
+  - component: {fileID: 1045261708}
+  - component: {fileID: 1045261707}
   m_Layer: 3
   m_Name: Inner Wall Left
   m_TagString: Untagged
@@ -3163,6 +3210,31 @@ Transform:
   m_Children: []
   m_Father: {fileID: 68096600}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1045261707
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1045261702}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bf56a6bb6b3540444a93ff4d439b9681, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1045261708
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1045261702}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b0dbe69aa767944591b74177b7fed53, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  canKnockOutPlayers: 0
 --- !u!1 &1352178997
 GameObject:
   m_ObjectHideFlags: 0
@@ -3679,6 +3751,8 @@ GameObject:
   - component: {fileID: 1521215138}
   - component: {fileID: 1521215137}
   - component: {fileID: 1521215136}
+  - component: {fileID: 1521215140}
+  - component: {fileID: 1521215139}
   m_Layer: 3
   m_Name: Inner Wall Right
   m_TagString: Untagged
@@ -3825,6 +3899,31 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &1521215139
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1521215134}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bf56a6bb6b3540444a93ff4d439b9681, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1521215140
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1521215134}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b0dbe69aa767944591b74177b7fed53, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  canKnockOutPlayers: 0
 --- !u!1 &1620026777
 GameObject:
   m_ObjectHideFlags: 0
@@ -3881,7 +3980,7 @@ BoxCollider2D:
   m_GameObject: {fileID: 1620026777}
   m_Enabled: 1
   m_Density: 1
-  m_Material: {fileID: 6200000, guid: 66590f403604a8d46afc0f488465fb33, type: 2}
+  m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -3999,6 +4098,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rb: {fileID: 1620026778}
   ballTrail: {fileID: 240507983}
+  innerWall: {fileID: 0}
   lastVelocity: {x: 0, y: 0}
   moveSpeed: 5
   isSpiked: 0
@@ -4510,24 +4610,21 @@ MonoBehaviour:
   isAI: 1
   rb: {fileID: 2044327002}
   playerTag: {fileID: 1788135973}
+  innerWall: {fileID: 0}
+  outerWall: {fileID: 0}
   upKey: 119
   leftKey: 97
   rightKey: 100
   smashKey: 113
-  spawnPoint: {x: 0, y: 0, z: 0}
   moveSpeed: 4000
   maxMoveSpeed: 3
   jumpForce: 7
   maxJumpCount: 3
-  currentJumpCount: 0
-  hasJumped: 0
-  isGrounded: 0
   hitForce: 10
-  maxHitCooldown: 0.4
-  currentHitCooldown: 0
-  hasHit: 0
-  courtSide: 0
-  teamIdentity: 0
+  maxHitCooldown: 0.75
+  isKnockedOut: 0
+  canRecover: 0
+  maxKOTime: 5
   ballXRange: 5
   ballYRange: 5
 --- !u!50 &2044327002
@@ -4589,7 +4686,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.9, y: 0.5}
+  m_Offset: {x: 0.15, y: 0.5}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -4708,8 +4805,8 @@ Transform:
   m_GameObject: {fileID: 2044327000}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -6, y: -4, z: 0}
-  m_LocalScale: {x: 0.75, y: 0.75, z: 1}
+  m_LocalPosition: {x: -6, y: -3.9, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 156351244}
@@ -4751,24 +4848,21 @@ MonoBehaviour:
   isAI: 1
   rb: {fileID: 2080237461}
   playerTag: {fileID: 1507467084}
+  innerWall: {fileID: 0}
+  outerWall: {fileID: 0}
   upKey: 264
   leftKey: 260
   rightKey: 262
   smashKey: 263
-  spawnPoint: {x: 0, y: 0, z: 0}
   moveSpeed: 4000
   maxMoveSpeed: 3
   jumpForce: 7
   maxJumpCount: 3
-  currentJumpCount: 0
-  hasJumped: 0
-  isGrounded: 0
   hitForce: 10
-  maxHitCooldown: 0.4
-  currentHitCooldown: 0
-  hasHit: 0
-  courtSide: 0
-  teamIdentity: 0
+  maxHitCooldown: 0.75
+  isKnockedOut: 0
+  canRecover: 0
+  maxKOTime: 5
   ballXRange: 5
   ballYRange: 5
 --- !u!50 &2080237461
@@ -4830,7 +4924,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.9, y: 0.5}
+  m_Offset: {x: 0.15, y: 0.5}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -4875,7 +4969,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.025, y: 0}
+  m_Offset: {x: 0.025, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -4949,8 +5043,8 @@ Transform:
   m_GameObject: {fileID: 2080237459}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 6, y: -4, z: 0}
-  m_LocalScale: {x: 0.75, y: 0.75, z: 1}
+  m_LocalPosition: {x: 6, y: -3.9, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 161099570}

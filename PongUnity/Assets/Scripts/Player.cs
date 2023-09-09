@@ -19,6 +19,8 @@ public class Player : MonoBehaviour
     // self & self-related objects
     public Rigidbody2D rb;
     public TMP_Text playerTag;
+    public GameObject innerWall;
+    public GameObject outerWall;
 
     // controls
     public KeyCode upKey;
@@ -27,26 +29,30 @@ public class Player : MonoBehaviour
     public KeyCode smashKey;
 
     // spawnpoint
-    public Vector3 spawnPoint;
+    Vector3 spawnPoint;
 
     // moving vars
     public float moveSpeed;
     public float maxMoveSpeed;
     public float jumpForce;
     public int maxJumpCount;
-    public int currentJumpCount;
-    public bool hasJumped;
-    public bool isGrounded;
+    int currentJumpCount;
+    bool hasJumped;
+    bool isGrounded;
 
     // hitting vars
     public float hitForce;
     public float maxHitCooldown;
-    public float currentHitCooldown;
-    public bool hasHit;
+    float currentHitCooldown;
+    bool canHit;
 
     // in-game team vars
-    public float courtSide;
-    public float teamIdentity;
+    float courtSide;
+    float teamIdentity;
+    public bool isKnockedOut;
+    public bool canRecover;
+    public float maxKOTime;
+    float currentKOTime;
 
     // AI
     public float ballXRange;
@@ -88,8 +94,11 @@ public class Player : MonoBehaviour
             teamIdentity = 1;
         }
 
+        canHit = true;
+
         currentHitCooldown = maxHitCooldown;
         currentJumpCount = maxJumpCount;
+        currentKOTime = maxKOTime;
 
         // show tag above player if not an AI
         if (!isAI)
@@ -119,14 +128,22 @@ public class Player : MonoBehaviour
             currentJumpCount = maxJumpCount;
         }
 
-
         // set cooldown for hitting stuff
         CheckForHit();
         if (Input.GetKeyDown(smashKey))
         {
-            hasHit = true;
+            canHit = false;
         }
 
+        // start KO timer when knocked out
+        if (isKnockedOut)
+        {
+            CheckForKO();
+        }
+        if (canRecover && currentKOTime != maxKOTime)
+        {
+            currentKOTime = maxKOTime;
+        }
 
         if (!isAI && (Input.GetKey(leftKey) || Input.GetKey(rightKey)))
         {
@@ -221,20 +238,33 @@ public class Player : MonoBehaviour
 
     public void CheckForHit()
     {
-        if (hasHit)
+        if (!canHit)
         {
             currentHitCooldown -= Time.deltaTime;
         }
-        else if (!hasHit && currentHitCooldown != maxHitCooldown)
+        else if (canHit && currentHitCooldown != maxHitCooldown)
         {
             currentHitCooldown = maxHitCooldown;
         }
 
         if (currentHitCooldown <= 0)
         {
-            hasHit = false;
+            canHit = true;
         }
     }
+
+    public void CheckForKO()
+    {
+        currentHitCooldown = 0;
+        currentKOTime -= Time.deltaTime;
+
+        if (currentKOTime <= 0)
+        {
+            currentHitCooldown = maxHitCooldown;
+            canRecover = true;
+        }
+    }
+
 
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -248,25 +278,7 @@ public class Player : MonoBehaviour
                 {
                     collision.gameObject.GetComponent<Ball>().rb.velocity = new Vector2(rb.velocity.x, hitForce);
                 }
-
-                if (rb.velocity.x > 0) // moving right
-                {
-                    collision.gameObject.GetComponent<Ball>().rb.velocity = new Vector2(rb.velocity.x, hitForce);
-                }
-
-                collision.gameObject.GetComponent<Ball>().rb.velocity = new Vector2(0, hitForce);
-                collision.gameObject.GetComponent<Ball>().ownedBy = teamIdentity;
-            }
-
-            // manual controls
-            if (currentHitCooldown == maxHitCooldown)
-            {
-                // hit ball (combo movement keys with spike to spike in different directions), tell ball who it's owned by (last hitter's team)
-                if (Input.GetKey(leftKey))
-                {
-                    collision.gameObject.GetComponent<Ball>().rb.velocity = new Vector2(rb.velocity.x, hitForce);
-                }
-                else if (Input.GetKey(rightKey))
+                else if (rb.velocity.x > 0) // moving right
                 {
                     collision.gameObject.GetComponent<Ball>().rb.velocity = new Vector2(rb.velocity.x, hitForce);
                 }
@@ -276,7 +288,26 @@ public class Player : MonoBehaviour
                 }
 
                 collision.gameObject.GetComponent<Ball>().ownedBy = teamIdentity;
+                collision.gameObject.GetComponent<Ball>().isSpiked = false;
             }
+
+            // manual controls
+            // hit ball (combo movement keys with spike to spike in different directions), tell ball who it's owned by (last hitter's team), un-spike ball
+            if (Input.GetKey(leftKey))
+            {
+                collision.gameObject.GetComponent<Ball>().rb.velocity = new Vector2(rb.velocity.x, hitForce);
+            }
+            else if (Input.GetKey(rightKey))
+            {
+                collision.gameObject.GetComponent<Ball>().rb.velocity = new Vector2(rb.velocity.x, hitForce);
+            }
+            else
+            {
+                collision.gameObject.GetComponent<Ball>().rb.velocity = new Vector2(0, hitForce);
+            }
+
+            collision.gameObject.GetComponent<Ball>().ownedBy = teamIdentity;
+            collision.gameObject.GetComponent<Ball>().isSpiked = false;
         }
 
         // handle jump stuff
@@ -286,7 +317,7 @@ public class Player : MonoBehaviour
             hasJumped = false;
         }
 
-        if (collision.gameObject.GetComponent<Player>())
+        if (collision.gameObject.GetComponent<Player>() && collision.gameObject.GetComponent<Player>().teamIdentity != teamIdentity && transform.position.y > collision.gameObject.GetComponent<Player>().transform.position.y)
         {
             isGrounded = true;
             hasJumped = false;
@@ -301,7 +332,7 @@ public class Player : MonoBehaviour
             isGrounded = false;
         }
 
-        if (collision.gameObject.GetComponent<Player>())
+        if (collision.gameObject.GetComponent<Player>() && collision.gameObject.GetComponent<Player>().teamIdentity != teamIdentity && transform.position.y > collision.gameObject.GetComponent<Player>().transform.position.y)
         {
             isGrounded = false;
         }
@@ -331,9 +362,10 @@ public class Player : MonoBehaviour
                 }
 
                 collision.gameObject.GetComponent<Ball>().ownedBy = teamIdentity;
+                collision.gameObject.GetComponent<Ball>().isSpiked = true;
             }
 
-            if (Input.GetKeyDown(smashKey))
+            if (Input.GetKeyDown(smashKey) && canHit)
             {
                 if (Input.GetKey(leftKey))
                 {
@@ -351,6 +383,7 @@ public class Player : MonoBehaviour
                 }
 
                 collision.gameObject.GetComponent<Ball>().ownedBy = teamIdentity;
+                collision.gameObject.GetComponent<Ball>().isSpiked = true;
             }
         }
 
@@ -374,6 +407,18 @@ public class Player : MonoBehaviour
 
         transform.position = spawnPoint;
         rb.velocity = Vector2.zero;
+
+        currentJumpCount = maxJumpCount;
+
+        isKnockedOut = false;
+        currentKOTime = maxKOTime;
+        currentHitCooldown = maxHitCooldown;
+        canRecover = false;
+
+        foreach (WallIgnoreCol wallIgnoreCol in FindObjectsOfType<WallIgnoreCol>())
+        {
+            wallIgnoreCol.DisableCollisionForNonKO(gameObject);
+        }
 
         yield break;
     }
