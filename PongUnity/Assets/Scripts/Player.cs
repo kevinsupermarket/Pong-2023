@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using TMPro;
 using Unity.Collections;
 using Unity.VisualScripting;
+using UnityEngine.UI;
 using UnityEngine;
 
 public class Player : MonoBehaviour
@@ -21,6 +22,7 @@ public class Player : MonoBehaviour
     public TMP_Text playerTag;
     public GameObject innerWall;
     public GameObject outerWall;
+    public float phaseFunction;
 
     // controls
     public KeyCode upKey;
@@ -39,11 +41,12 @@ public class Player : MonoBehaviour
     int currentJumpCount;
     bool hasJumped;
     bool isGrounded;
+    public Image cooldownFill;
 
     // hitting vars
     public float hitForce;
     public float maxHitCooldown;
-    float currentHitCooldown;
+    public float currentHitCooldown;
     bool canHit;
 
     // in-game team vars
@@ -61,6 +64,7 @@ public class Player : MonoBehaviour
 
     public static Player Instance;
 
+    Player[] players;
 
     void Awake()
     {
@@ -99,6 +103,7 @@ public class Player : MonoBehaviour
         currentHitCooldown = maxHitCooldown;
         currentJumpCount = maxJumpCount;
         currentKOTime = maxKOTime;
+ 
 
         // show tag above player if not an AI
         if (!isAI)
@@ -107,9 +112,17 @@ public class Player : MonoBehaviour
         }
     }
 
+    void UpdateFillUI()
+    {
+        if (cooldownFill == null) return;
+        cooldownFill.fillAmount = currentHitCooldown / maxHitCooldown;
+    }
+
     // Update is called once per frame
     void Update()
     {
+        UpdateFillUI();
+
         // let this thing move itself if it's an AI
         if (isAI)
         {
