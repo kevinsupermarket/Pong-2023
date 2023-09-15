@@ -9,6 +9,15 @@ public class Goal : MonoBehaviour
     Ball ball;
     ScoreLine scoreLine;
 
+    public int lastTeamtoScore; // referenced by Ball script
+
+    public static Goal Instance;
+
+    private void Awake()
+    {
+        Instance = this;
+    }
+
     private void Start()
     {
         scoreLine = FindObjectOfType<ScoreLine>();
@@ -30,6 +39,7 @@ public class Goal : MonoBehaviour
                 if (ball.ownedBy == 0)
                 {
                     GameManager.Instance.homeScore += 1;
+                    lastTeamtoScore = 0;
 
                     if (GameManager.Instance.homeScore == GameManager.Instance.maxScore)
                     {
@@ -40,6 +50,8 @@ public class Goal : MonoBehaviour
                 if (ball.ownedBy == 1)
                 {
                     GameManager.Instance.awayScore += 1;
+
+                    lastTeamtoScore = 1;
 
                     if (GameManager.Instance.awayScore == GameManager.Instance.maxScore)
                     {
@@ -66,6 +78,7 @@ public class Goal : MonoBehaviour
                 if (ball.ownedBy == 0)
                 {
                     GameManager.Instance.awayScore += 1;
+                    lastTeamtoScore = 1;
 
                     if (GameManager.Instance.awayScore == GameManager.Instance.maxScore)
                     {
@@ -76,6 +89,7 @@ public class Goal : MonoBehaviour
                 if (ball.ownedBy == 1)
                 {
                     GameManager.Instance.homeScore += 1;
+                    lastTeamtoScore = 0;
 
                     if (GameManager.Instance.homeScore == GameManager.Instance.maxScore)
                     {
