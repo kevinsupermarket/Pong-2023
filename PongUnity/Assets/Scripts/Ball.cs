@@ -7,8 +7,14 @@ public class Ball : MonoBehaviour
 {
     public Rigidbody2D rb;
     public TrailRenderer ballTrail;
+    public GameObject innerWall;
+
     public Vector2 lastVelocity;
+
     public float moveSpeed;
+
+    public bool isSpiked;
+
     public bool isScored;
     public float ownedBy;
 
@@ -22,6 +28,7 @@ public class Ball : MonoBehaviour
 
     private void Start()
     {
+        // give ball to HOME side first
         rb.velocity = Vector2.left * moveSpeed;
 
         // -1 is "unowned" value, 0 is home, 1 is away
@@ -37,6 +44,12 @@ public class Ball : MonoBehaviour
     {
         if (collision.gameObject.GetComponent<Wall>())
         {
+            /* THIS NEEDS TO BE CHANGED!
+             - cannot bounce horizontally
+             - will always bounce vertically even if colliding with a horizontal wall
+             - need to find a good method to detect which way to bounce
+            */
+
             rb.velocity = new Vector2(lastVelocity.x, -lastVelocity.y * 0.9f);
         }
     }

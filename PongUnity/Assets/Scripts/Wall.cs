@@ -4,15 +4,34 @@ using UnityEngine;
 
 public class Wall : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    Player[] players;
+
+    public bool canKnockOutPlayers;
+
+    private void OnCollisionEnter2D(Collision2D collision)
     {
-        
+        if (canKnockOutPlayers && collision.gameObject.GetComponent<Player>() && !collision.gameObject.GetComponent<Player>().isKnockedOut)
+        {
+            collision.gameObject.GetComponent<Player>().isKnockedOut = true;
+
+            foreach (WallIgnoreCol wallIgnoreCol in FindObjectsOfType<WallIgnoreCol>())
+            {
+                wallIgnoreCol.EnableCollisionForKO(collision.gameObject.GetComponent<Player>().gameObject);
+            }
+        }
     }
 
-    // Update is called once per frame
-    void Update()
+    private void OnCollisionExit2D(Collision2D collision)
     {
-        
+        if (canKnockOutPlayers && collision.gameObject.GetComponent<Player>() && collision.gameObject.GetComponent<Player>().canRecover)
+        {
+            collision.gameObject.GetComponent<Player>().canRecover = false;
+            collision.gameObject.GetComponent<Player>().isKnockedOut = false;
+
+            foreach (WallIgnoreCol wallIgnoreCol in FindObjectsOfType<WallIgnoreCol>())
+            {
+                wallIgnoreCol.DisableCollisionForNonKO(collision.gameObject.GetComponent<Player>().gameObject);
+            }
+        }
     }
 }

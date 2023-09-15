@@ -6,41 +6,91 @@ using static UnityEditor.Timeline.TimelinePlaybackControls;
 
 public class Goal : MonoBehaviour
 {
+    Ball ball;
+    ScoreLine scoreLine;
+
+    private void Start()
+    {
+        scoreLine = FindObjectOfType<ScoreLine>();
+    }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.GetComponent<Ball>() && !collision.gameObject.GetComponent<Ball>().isScored && collision.gameObject.GetComponent<Ball>().ownedBy != -1)
+        if (collision.gameObject.GetComponent<Ball>())
         {
-            // declare the ball as "scored" if the ball is owned by a team and has collided with this object
-            collision.gameObject.GetComponent<Ball>().isScored = true;
+            // setting this variable because every if-statement will be a mile long otherwise
+            ball = collision.gameObject.GetComponent<Ball>();
 
-            if (collision.gameObject.GetComponent<Ball>().ownedBy == 0)
+
+            // declare the ball as "scored" if the ball is owned by a team, was spiked, and has collided with this object
+            if (ball && !ball.isScored && ball.ownedBy != -1 && ball.isSpiked)
             {
-                GameManager.Instance.homeScore += 1;
+                ball.isScored = true;
 
-                if (GameManager.Instance.homeScore == GameManager.Instance.maxScore)
+                if (ball.ownedBy == 0)
                 {
-                    GameManager.Instance.gameOver = true;
+                    GameManager.Instance.homeScore += 1;
+
+                    if (GameManager.Instance.homeScore == GameManager.Instance.maxScore)
+                    {
+                        GameManager.Instance.gameOver = true;
+                    }
+                }
+
+                if (ball.ownedBy == 1)
+                {
+                    GameManager.Instance.awayScore += 1;
+
+                    if (GameManager.Instance.awayScore == GameManager.Instance.maxScore)
+                    {
+                        GameManager.Instance.gameOver = true;
+                    }
+                }
+
+                if (!GameManager.Instance.gameOver)
+                {
+                    StartCoroutine(ball.ResetPosition());
+
+                    foreach (Player obj in FindObjectsOfType<Player>())
+                    {
+                        StartCoroutine(obj.ResetPosition());
+                    }
                 }
             }
 
-            if (collision.gameObject.GetComponent<Ball>().ownedBy == 1)
+            // give point to team Y if the ball is owned by team X, was NOT spiked (or was spiked below the score line), and has collided with this object
+            else if (ball && !ball.isScored && ball.ownedBy != -1 && (!ball.isSpiked || ball.transform.position.y < scoreLine.transform.position.y))
             {
-                GameManager.Instance.awayScore += 1;
+                ball.isScored = true;
 
-                if (GameManager.Instance.awayScore == GameManager.Instance.maxScore)
+                if (ball.ownedBy == 0)
                 {
-                    GameManager.Instance.gameOver = true;
+                    GameManager.Instance.awayScore += 1;
+
+                    if (GameManager.Instance.awayScore == GameManager.Instance.maxScore)
+                    {
+                        GameManager.Instance.gameOver = true;
+                    }
                 }
-            }
 
-            if (!GameManager.Instance.gameOver)
-            {
-                StartCoroutine(collision.gameObject.GetComponent<Ball>().ResetPosition());
-
-                foreach (Player obj in FindObjectsOfType<Player>())
+                if (ball.ownedBy == 1)
                 {
-                    StartCoroutine(obj.ResetPosition());
+                    GameManager.Instance.homeScore += 1;
+
+                    if (GameManager.Instance.homeScore == GameManager.Instance.maxScore)
+                    {
+                        GameManager.Instance.gameOver = true;
+                    }
+                }
+
+                if (!GameManager.Instance.gameOver)
+                {
+                    StartCoroutine(ball.ResetPosition());
+
+                    foreach (Player obj in FindObjectsOfType<Player>())
+                    {
+                        StartCoroutine(obj.ResetPosition());
+                    }
                 }
             }
         }

@@ -16,6 +16,8 @@ public class GameManager : MonoBehaviour
     Player[] players;
     Ball ball;
 
+    public GameObject scoreLine;
+
     public int homeScore, awayScore, maxScore;
     public bool gameOver;
 
@@ -30,6 +32,7 @@ public class GameManager : MonoBehaviour
     {
         players = FindObjectsOfType<Player>();
         ball = FindObjectOfType<Ball>();
+        scoreLine = FindObjectOfType<ScoreLine>().gameObject;
     }
 
     // Update is called once per frame
