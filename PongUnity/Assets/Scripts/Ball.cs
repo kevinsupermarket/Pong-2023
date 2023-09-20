@@ -20,6 +20,7 @@ public class Ball : MonoBehaviour
 
     public static Ball Instance;
 
+    
 
     private void Awake()
     {
@@ -44,15 +45,19 @@ public class Ball : MonoBehaviour
     {
         if (collision.gameObject.GetComponent<Wall>())
         {
-            /* THIS NEEDS TO BE CHANGED!
-             - cannot bounce horizontally
-             - will always bounce vertically even if colliding with a horizontal wall
-             - need to find a good method to detect which way to bounce
-            */
+           
 
-            rb.velocity = new Vector2(lastVelocity.x, -lastVelocity.y * 0.9f);
+            if (collision.gameObject.GetComponent<Wall>().isFloor)
+            {
+                rb.velocity = new Vector2(lastVelocity.x, -lastVelocity.y * 0.9f);
+            }
+            else
+            {
+                rb.velocity = new Vector2(-lastVelocity.x, lastVelocity.y * 0.9f);
+            }
         }
     }
+
 
     public IEnumerator ResetPosition()
     {

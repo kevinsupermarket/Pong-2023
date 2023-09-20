@@ -7,6 +7,8 @@ public class Wall : MonoBehaviour
     Player[] players;
 
     public bool canKnockOutPlayers;
+    public float ballBounceDirection;
+    public bool isFloor;
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
@@ -19,6 +21,7 @@ public class Wall : MonoBehaviour
                 wallIgnoreCol.EnableCollisionForKO(collision.gameObject.GetComponent<Player>().gameObject);
             }
         }
+      
     }
 
     private void OnCollisionExit2D(Collision2D collision)

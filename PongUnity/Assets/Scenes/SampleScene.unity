@@ -393,7 +393,7 @@ Transform:
   m_GameObject: {fileID: 127389867}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2, y: -3.9, z: 0}
+  m_LocalPosition: {x: 2.54, y: -3.8, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -663,8 +663,8 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 156351243}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 90}
+  m_LocalScale: {x: 0.013642564, y: 0.013642564, z: 0.013642564}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1788135975}
@@ -672,9 +672,9 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
-  m_Pivot: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 6, y: 3.9261}
+  m_SizeDelta: {x: 1469, y: 736.8212}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &156351245
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -714,7 +714,7 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
-  m_PresetInfoIsWorld: 0
+  m_PresetInfoIsWorld: 1
 --- !u!223 &156351247
 Canvas:
   m_ObjectHideFlags: 0
@@ -724,7 +724,7 @@ Canvas:
   m_GameObject: {fileID: 156351243}
   m_Enabled: 1
   serializedVersion: 3
-  m_RenderMode: 1
+  m_RenderMode: 2
   m_Camera: {fileID: 519420031}
   m_PlaneDistance: 100
   m_PixelPerfect: 0
@@ -1025,6 +1025,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   canKnockOutPlayers: 0
+  ballBounceDirection: 0
+  isFloor: 1
 --- !u!1 &197012566
 GameObject:
   m_ObjectHideFlags: 0
@@ -1395,6 +1397,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   canKnockOutPlayers: 1
+  ballBounceDirection: 0
+  isFloor: 0
 --- !u!1 &329077100
 GameObject:
   m_ObjectHideFlags: 0
@@ -1678,13 +1682,13 @@ MonoBehaviour:
   upKey: 119
   leftKey: 97
   rightKey: 100
-  smashKey: 113
+  smashKey: 32
   moveSpeed: 4000
   maxMoveSpeed: 3
   jumpForce: 7
   maxJumpCount: 3
   hitForce: 10
-  maxHitCooldown: 0.75
+  maxHitCooldown: 1
   isKnockedOut: 0
   canRecover: 0
   maxKOTime: 5
@@ -1966,7 +1970,7 @@ Transform:
   m_GameObject: {fileID: 447607907}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -2, y: -3.9, z: 0}
+  m_LocalPosition: {x: -2.68, y: -3.93, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -2475,6 +2479,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   canKnockOutPlayers: 1
+  ballBounceDirection: 0
+  isFloor: 0
 --- !u!1 &559432017
 GameObject:
   m_ObjectHideFlags: 0
@@ -2781,6 +2787,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   canKnockOutPlayers: 1
+  ballBounceDirection: 0
+  isFloor: 0
 --- !u!1 &642438570
 GameObject:
   m_ObjectHideFlags: 0
@@ -2953,6 +2961,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   canKnockOutPlayers: 1
+  ballBounceDirection: 0
+  isFloor: 0
 --- !u!1 &698063524
 GameObject:
   m_ObjectHideFlags: 0
@@ -3235,6 +3245,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   canKnockOutPlayers: 0
+  ballBounceDirection: 0
+  isFloor: 0
 --- !u!1 &1352178997
 GameObject:
   m_ObjectHideFlags: 0
@@ -3924,6 +3936,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   canKnockOutPlayers: 0
+  ballBounceDirection: 0
+  isFloor: 0
 --- !u!1 &1620026777
 GameObject:
   m_ObjectHideFlags: 0
@@ -4805,7 +4819,7 @@ Transform:
   m_GameObject: {fileID: 2044327000}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -6, y: -3.9, z: 0}
+  m_LocalPosition: {x: -5.4, y: -3.85, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -5043,7 +5057,7 @@ Transform:
   m_GameObject: {fileID: 2080237459}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 6, y: -3.9, z: 0}
+  m_LocalPosition: {x: 5.32, y: -3.84, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
