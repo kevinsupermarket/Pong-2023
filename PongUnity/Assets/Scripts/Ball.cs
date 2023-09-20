@@ -13,6 +13,7 @@ public class Ball : MonoBehaviour
     public float moveSpeed;
 
     public bool isSpiked;
+    public bool wasSpikedAboveScoreLine;
 
     public bool isScored;
     public float ownedBy;
@@ -58,20 +59,6 @@ public class Ball : MonoBehaviour
         }
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        if (collision.gameObject.GetComponent<Wall>())
-        {
-            /* THIS NEEDS TO BE CHANGED!
-             - cannot bounce horizontally
-             - will always bounce vertically even if colliding with a horizontal wall
-             - need to find a good method to detect which way to bounce
-            */
-
-            //rb.velocity = new Vector2(lastVelocity.x, -lastVelocity.y * 0.9f);
-        }
-    }
-
     public IEnumerator ResetPosition()
     {
         if (!GameManager.Instance.gameOver)
@@ -88,18 +75,20 @@ public class Ball : MonoBehaviour
             ballTrail.SetPosition(i, transform.position);
         }
 
-        // move towards winner of last point
-        if (Goal.Instance.lastTeamtoScore == 0)
-        {
-            rb.velocity = Vector2.left * moveSpeed;
-        }
-        else if (Goal.Instance.lastTeamtoScore == 1)
+        // move towards loser of last point
+        if (Goal.Instance.lastTeamToScore == 0)
         {
             rb.velocity = Vector2.right * moveSpeed;
+        }
+        else if (Goal.Instance.lastTeamToScore == 1)
+        {
+            rb.velocity = Vector2.left * moveSpeed;
         }
 
         // reset score & ownership states
         isScored = false;
+        isSpiked = false;
+        wasSpikedAboveScoreLine = false;
         ownedBy = -1;
 
         yield break;

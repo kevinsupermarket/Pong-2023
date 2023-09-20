@@ -183,7 +183,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &127389868
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -202,17 +202,21 @@ MonoBehaviour:
   upKey: 264
   leftKey: 260
   rightKey: 262
-  smashKey: 263
+  spikeKey: 263
   moveSpeed: 4000
-  maxMoveSpeed: 3
+  maxMoveSpeed: 4
   jumpForce: 7
   maxJumpCount: 3
+  isGrounded: 0
   hitForce: 10
-  maxHitCooldown: 0.75
-  canHit: 0
+  maxSpikeCooldown: 1
+  currentSpikeCooldown: 0
+  canSpike: 0
+  isBallInSpikeRange: 0
+  canBeHit: 0
   isKnockedOut: 0
-  canRecover: 0
-  maxKOTime: 5
+  maxKOCooldown: 5
+  isOpponentInHitRange: 0
   ballXRange: 5
   ballYRange: 5
 --- !u!50 &127389869
@@ -274,7 +278,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.5, y: 0.175}
+  m_Offset: {x: 0.375, y: 0.375}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -285,7 +289,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.5, y: 0.5}
+  m_Size: {x: 0.75, y: 0.75}
   m_EdgeRadius: 0
 --- !u!61 &127389871
 BoxCollider2D:
@@ -750,7 +754,6 @@ GameObject:
   - component: {fileID: 160215180}
   - component: {fileID: 160215179}
   - component: {fileID: 160215178}
-  - component: {fileID: 160215177}
   m_Layer: 3
   m_Name: Ceiling
   m_TagString: Untagged
@@ -773,19 +776,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 68096600}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &160215177
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 160215174}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9b0dbe69aa767944591b74177b7fed53, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  canKnockOutPlayers: 0
 --- !u!50 &160215178
 Rigidbody2D:
   serializedVersion: 4
@@ -1045,7 +1035,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4af02d76d9dd7e84e86e292be921b36d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lastTeamtoScore: 0
+  lastTeamToScore: 0
 --- !u!50 &188462206
 Rigidbody2D:
   serializedVersion: 4
@@ -1850,17 +1840,21 @@ MonoBehaviour:
   upKey: 119
   leftKey: 97
   rightKey: 100
-  smashKey: 113
+  spikeKey: 113
   moveSpeed: 4000
-  maxMoveSpeed: 3
+  maxMoveSpeed: 4
   jumpForce: 7
   maxJumpCount: 3
+  isGrounded: 0
   hitForce: 10
-  maxHitCooldown: 0.75
-  canHit: 0
+  maxSpikeCooldown: 1
+  currentSpikeCooldown: 0
+  canSpike: 0
+  isBallInSpikeRange: 0
+  canBeHit: 0
   isKnockedOut: 0
-  canRecover: 0
-  maxKOTime: 5
+  maxKOCooldown: 2
+  isOpponentInHitRange: 0
   ballXRange: 5
   ballYRange: 5
 --- !u!61 &370895502
@@ -1895,7 +1889,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.5, y: 0.175}
+  m_Offset: {x: 0.375, y: 0.375}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -1906,7 +1900,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.5, y: 0.5}
+  m_Size: {x: 0.75, y: 0.75}
   m_EdgeRadius: 0
 --- !u!1 &447607907
 GameObject:
@@ -1928,7 +1922,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &447607908
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1947,17 +1941,21 @@ MonoBehaviour:
   upKey: 119
   leftKey: 97
   rightKey: 100
-  smashKey: 113
+  spikeKey: 113
   moveSpeed: 4000
-  maxMoveSpeed: 3
+  maxMoveSpeed: 4
   jumpForce: 7
   maxJumpCount: 3
+  isGrounded: 0
   hitForce: 10
-  maxHitCooldown: 0.75
-  canHit: 0
+  maxSpikeCooldown: 1
+  currentSpikeCooldown: 0
+  canSpike: 0
+  isBallInSpikeRange: 0
+  canBeHit: 0
   isKnockedOut: 0
-  canRecover: 0
-  maxKOTime: 5
+  maxKOCooldown: 5
+  isOpponentInHitRange: 0
   ballXRange: 5
   ballYRange: 5
 --- !u!50 &447607909
@@ -2019,7 +2017,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.5, y: 0.175}
+  m_Offset: {x: 0.375, y: 0.375}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -2030,7 +2028,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.5, y: 0.5}
+  m_Size: {x: 0.75, y: 0.75}
   m_EdgeRadius: 0
 --- !u!61 &447607911
 BoxCollider2D:
@@ -2324,17 +2322,21 @@ MonoBehaviour:
   upKey: 264
   leftKey: 260
   rightKey: 262
-  smashKey: 263
+  spikeKey: 263
   moveSpeed: 4000
-  maxMoveSpeed: 3
+  maxMoveSpeed: 4
   jumpForce: 7
   maxJumpCount: 3
+  isGrounded: 0
   hitForce: 10
-  maxHitCooldown: 0.75
-  canHit: 0
+  maxSpikeCooldown: 1
+  currentSpikeCooldown: 0
+  canSpike: 0
+  isBallInSpikeRange: 0
+  canBeHit: 0
   isKnockedOut: 0
-  canRecover: 0
-  maxKOTime: 5
+  maxKOCooldown: 5
+  isOpponentInHitRange: 0
   ballXRange: 5
   ballYRange: 5
 --- !u!61 &479299526
@@ -2369,7 +2371,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.5, y: 0.175}
+  m_Offset: {x: 0.375, y: 0.375}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -2380,7 +2382,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.5, y: 0.5}
+  m_Size: {x: 0.75, y: 0.75}
   m_EdgeRadius: 0
 --- !u!1 &519420028
 GameObject:
@@ -3233,7 +3235,6 @@ GameObject:
   - component: {fileID: 1045261705}
   - component: {fileID: 1045261704}
   - component: {fileID: 1045261703}
-  - component: {fileID: 1045261708}
   - component: {fileID: 1045261707}
   m_Layer: 3
   m_Name: Inner Wall Left
@@ -3393,19 +3394,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bf56a6bb6b3540444a93ff4d439b9681, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &1045261708
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1045261702}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9b0dbe69aa767944591b74177b7fed53, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  canKnockOutPlayers: 0
 --- !u!1 &1352178997
 GameObject:
   m_ObjectHideFlags: 0
@@ -3922,7 +3910,6 @@ GameObject:
   - component: {fileID: 1521215138}
   - component: {fileID: 1521215137}
   - component: {fileID: 1521215136}
-  - component: {fileID: 1521215140}
   - component: {fileID: 1521215139}
   m_Layer: 3
   m_Name: Inner Wall Right
@@ -4082,19 +4069,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bf56a6bb6b3540444a93ff4d439b9681, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &1521215140
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1521215134}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9b0dbe69aa767944591b74177b7fed53, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  canKnockOutPlayers: 0
 --- !u!1 &1620026777
 GameObject:
   m_ObjectHideFlags: 0
@@ -4272,6 +4246,7 @@ MonoBehaviour:
   lastVelocity: {x: 0, y: 0}
   moveSpeed: 5
   isSpiked: 0
+  wasSpikedAboveScoreLine: 0
   isScored: 0
   ownedBy: 0
 --- !u!1 &1644840362
@@ -4770,8 +4745,8 @@ Transform:
   m_GameObject: {fileID: 2036132790}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.5, y: 0.175, z: 0}
-  m_LocalScale: {x: 0.5, y: 0.5, z: 1}
+  m_LocalPosition: {x: 0.375, y: 0.375, z: 0}
+  m_LocalScale: {x: 0.75, y: 0.75, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 370895500}
@@ -4848,7 +4823,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &2044327001
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4867,17 +4842,21 @@ MonoBehaviour:
   upKey: 119
   leftKey: 97
   rightKey: 100
-  smashKey: 113
+  spikeKey: 113
   moveSpeed: 4000
-  maxMoveSpeed: 3
+  maxMoveSpeed: 4
   jumpForce: 7
   maxJumpCount: 3
+  isGrounded: 0
   hitForce: 10
-  maxHitCooldown: 0.75
-  canHit: 0
+  maxSpikeCooldown: 1
+  currentSpikeCooldown: 0
+  canSpike: 0
+  isBallInSpikeRange: 0
+  canBeHit: 0
   isKnockedOut: 0
-  canRecover: 0
-  maxKOTime: 5
+  maxKOCooldown: 5
+  isOpponentInHitRange: 0
   ballXRange: 5
   ballYRange: 5
 --- !u!50 &2044327002
@@ -4939,7 +4918,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.5, y: 0.175}
+  m_Offset: {x: 0.375, y: 0.375}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -4950,7 +4929,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.5, y: 0.5}
+  m_Size: {x: 0.75, y: 0.75}
   m_EdgeRadius: 0
 --- !u!61 &2044327004
 BoxCollider2D:
@@ -5085,7 +5064,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &2080237460
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5104,17 +5083,21 @@ MonoBehaviour:
   upKey: 264
   leftKey: 260
   rightKey: 262
-  smashKey: 263
+  spikeKey: 263
   moveSpeed: 4000
-  maxMoveSpeed: 3
+  maxMoveSpeed: 4
   jumpForce: 7
   maxJumpCount: 3
+  isGrounded: 0
   hitForce: 10
-  maxHitCooldown: 0.75
-  canHit: 0
+  maxSpikeCooldown: 1
+  currentSpikeCooldown: 0
+  canSpike: 0
+  isBallInSpikeRange: 0
+  canBeHit: 0
   isKnockedOut: 0
-  canRecover: 0
-  maxKOTime: 5
+  maxKOCooldown: 5
+  isOpponentInHitRange: 0
   ballXRange: 5
   ballYRange: 5
 --- !u!50 &2080237461
@@ -5176,7 +5159,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.5, y: 0.175}
+  m_Offset: {x: 0.375, y: 0.375}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -5187,7 +5170,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.5, y: 0.5}
+  m_Size: {x: 0.75, y: 0.75}
   m_EdgeRadius: 0
 --- !u!61 &2080237463
 BoxCollider2D:
