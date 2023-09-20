@@ -1836,12 +1836,12 @@ MonoBehaviour:
   upKey: 119
   leftKey: 97
   rightKey: 100
-  smashKey: 115
+  smashKey: 113
   moveSpeed: 4000
   maxMoveSpeed: 3
   jumpForce: 7
   maxJumpCount: 3
-  cooldownFill: {fileID: 1414665979}
+  cooldownFill: {fileID: 1795025164}
   hitForce: 10
   maxHitCooldown: 0.75
   currentHitCooldown: 0
@@ -3831,7 +3831,7 @@ GameObject:
   - component: {fileID: 1414665980}
   - component: {fileID: 1414665979}
   m_Layer: 5
-  m_Name: PowerBarHomeP3
+  m_Name: PowerBarHomeP1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
