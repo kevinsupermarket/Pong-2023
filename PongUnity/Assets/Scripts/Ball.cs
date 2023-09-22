@@ -59,6 +59,21 @@ public class Ball : MonoBehaviour
         }
     }
 
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.GetComponent<Wall>())
+        {
+            if (collision.gameObject.GetComponent<Wall>().isFloor)
+            {
+                rb.velocity = new Vector2(lastVelocity.x, -lastVelocity.y * 0.9f);
+            }
+            else
+            {
+                rb.velocity = new Vector2(-lastVelocity.x, lastVelocity.y * 0.9f);
+            }
+        }
+    }
+
     public IEnumerator ResetPosition()
     {
         if (!GameManager.Instance.gameOver)
