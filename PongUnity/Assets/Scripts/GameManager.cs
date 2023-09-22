@@ -43,11 +43,11 @@ public class GameManager : MonoBehaviour
 
         if (homeScore == maxScore)
         {
-            winText.text = "PLAYER 1 IS\nWINNER\n\nPRESS " + startKey + " TO\nRESTART";
+            winText.text = "HOME TEAM IS\nWINNER\n\nPRESS " + startKey + " TO\nRESTART";
         }
         else if (awayScore == maxScore)
         {
-            winText.text = "PLAYER 2 IS\nWINNER\n\nPRESS " + startKey + " TO\nRESTART";
+            winText.text = "AWAY TEAM IS\nWINNER\n\nPRESS " + startKey + " TO\nRESTART";
         }
 
         if (gameOver && Input.GetKeyDown(startKey))
