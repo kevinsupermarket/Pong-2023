@@ -7,7 +7,10 @@ public class Wall : MonoBehaviour
     Player[] players;
 
     public bool canKnockOutPlayers;
+    public float ballBounceDirection;
+    public bool isFloor;
 
+ 
     private void OnCollisionEnter2D(Collision2D collision)
     {
         // if this wall can knock out players, do so when they collide with this wall, then prevent them from passing through any NoCol walls
