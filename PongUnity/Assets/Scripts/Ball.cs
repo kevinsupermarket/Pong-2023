@@ -54,20 +54,6 @@ public class Ball : MonoBehaviour
         }
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        if (collision.gameObject.GetComponent<Wall>())
-        {
-            /* THIS NEEDS TO BE CHANGED!
-             - cannot bounce horizontally
-             - will always bounce vertically even if colliding with a horizontal wall
-             - need to find a good method to detect which way to bounce
-            */
-
-            //rb.velocity = new Vector2(lastVelocity.x, -lastVelocity.y * 0.9f);
-        }
-    }
-
     public IEnumerator ResetPosition()
     {
         if (!GameManager.Instance.gameOver)
@@ -87,22 +73,7 @@ public class Ball : MonoBehaviour
         }
 
         // move towards winner of last point
-<<<<<<< HEAD
         rb.velocity = Vector2.left * moveSpeed;
-=======
-        if (Goal.Instance.lastTeamtoScore == 0)
-        {
-            rb.velocity = Vector2.left * moveSpeed;
-        }
-        else if (Goal.Instance.lastTeamtoScore == 1)
-        {
-            rb.velocity = Vector2.right * moveSpeed;
-        }
-
-        // reset score & ownership states
-        isScored = false;
-        ownedBy = -1;
->>>>>>> parent of 1136a54 (ugh)
 
         yield break;
     }
