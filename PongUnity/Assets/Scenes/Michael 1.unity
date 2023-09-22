@@ -198,27 +198,26 @@ MonoBehaviour:
   isAI: 1
   rb: {fileID: 127389869}
   playerTag: {fileID: 155465175}
+  innerWall: {fileID: 0}
+  outerWall: {fileID: 0}
+  phaseFunction: 0
   upKey: 264
   leftKey: 260
   rightKey: 262
-  spikeKey: 0
+  smashKey: 263
   moveSpeed: 4000
   maxMoveSpeed: 3
   jumpForce: 7
   maxJumpCount: 3
-  isGrounded: 0
+  cooldownFill: {fileID: 392987487}
   hitForce: 10
-  maxSpikeCooldown: 1
-  currentSpikeCooldown: 0
-  canSpike: 0
-  isBallInSpikeRange: 0
-  canBeHit: 0
+  maxHitCooldown: 0.75
+  currentHitCooldown: 0
   isKnockedOut: 0
-  maxKOCooldown: 0
-  isOpponentInHitRange: 0
+  canRecover: 0
+  maxKOTime: 5
   ballXRange: 5
   ballYRange: 5
-  cooldownFill: {fileID: 392987487}
 --- !u!50 &127389869
 Rigidbody2D:
   serializedVersion: 4
@@ -880,7 +879,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4af02d76d9dd7e84e86e292be921b36d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lastTeamToScore: 0
 --- !u!50 &188462206
 Rigidbody2D:
   serializedVersion: 4
@@ -1832,27 +1830,26 @@ MonoBehaviour:
   isAI: 0
   rb: {fileID: 370895497}
   playerTag: {fileID: 1679037975}
+  innerWall: {fileID: 0}
+  outerWall: {fileID: 0}
+  phaseFunction: 0
   upKey: 119
   leftKey: 97
   rightKey: 100
-  spikeKey: 0
+  smashKey: 113
   moveSpeed: 4000
   maxMoveSpeed: 3
   jumpForce: 7
   maxJumpCount: 3
-  isGrounded: 0
+  cooldownFill: {fileID: 1795025164}
   hitForce: 10
-  maxSpikeCooldown: 1
-  currentSpikeCooldown: 0
-  canSpike: 0
-  isBallInSpikeRange: 0
-  canBeHit: 0
+  maxHitCooldown: 0.75
+  currentHitCooldown: 0
   isKnockedOut: 0
-  maxKOCooldown: 0
-  isOpponentInHitRange: 0
+  canRecover: 0
+  maxKOTime: 5
   ballXRange: 5
   ballYRange: 5
-  cooldownFill: {fileID: 1795025164}
 --- !u!61 &370895502
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -2009,27 +2006,26 @@ MonoBehaviour:
   isAI: 1
   rb: {fileID: 447607909}
   playerTag: {fileID: 1360924206}
+  innerWall: {fileID: 0}
+  outerWall: {fileID: 0}
+  phaseFunction: 0
   upKey: 119
   leftKey: 97
   rightKey: 100
-  spikeKey: 0
+  smashKey: 113
   moveSpeed: 4000
   maxMoveSpeed: 3
   jumpForce: 7
   maxJumpCount: 3
-  isGrounded: 0
+  cooldownFill: {fileID: 668407600}
   hitForce: 10
-  maxSpikeCooldown: 1
-  currentSpikeCooldown: 0
-  canSpike: 0
-  isBallInSpikeRange: 0
-  canBeHit: 0
+  maxHitCooldown: 0.75
+  currentHitCooldown: 0
   isKnockedOut: 0
-  maxKOCooldown: 0
-  isOpponentInHitRange: 0
+  canRecover: 0
+  maxKOTime: 5
   ballXRange: 5
   ballYRange: 5
-  cooldownFill: {fileID: 668407600}
 --- !u!50 &447607909
 Rigidbody2D:
   serializedVersion: 4
@@ -2391,27 +2387,26 @@ MonoBehaviour:
   isAI: 1
   rb: {fileID: 479299521}
   playerTag: {fileID: 559432018}
+  innerWall: {fileID: 0}
+  outerWall: {fileID: 0}
+  phaseFunction: 0
   upKey: 264
   leftKey: 260
   rightKey: 262
-  spikeKey: 0
+  smashKey: 263
   moveSpeed: 4000
   maxMoveSpeed: 3
   jumpForce: 7
   maxJumpCount: 3
-  isGrounded: 0
+  cooldownFill: {fileID: 236464539}
   hitForce: 10
-  maxSpikeCooldown: 1
-  currentSpikeCooldown: 0
-  canSpike: 0
-  isBallInSpikeRange: 0
-  canBeHit: 0
+  maxHitCooldown: 0.75
+  currentHitCooldown: 0
   isKnockedOut: 0
-  maxKOCooldown: 0
-  isOpponentInHitRange: 0
+  canRecover: 0
+  maxKOTime: 5
   ballXRange: 5
   ballYRange: 5
-  cooldownFill: {fileID: 236464539}
 --- !u!61 &479299526
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -4359,7 +4354,7 @@ Rigidbody2D:
   m_LinearDrag: 0
   m_AngularDrag: 0.05
   m_GravityScale: 1
-  m_Material: {fileID: 6200000, guid: 66590f403604a8d46afc0f488465fb33, type: 2}
+  m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -4379,7 +4374,7 @@ BoxCollider2D:
   m_GameObject: {fileID: 1620026777}
   m_Enabled: 1
   m_Density: 1
-  m_Material: {fileID: 6200000, guid: 66590f403604a8d46afc0f488465fb33, type: 2}
+  m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -4497,10 +4492,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rb: {fileID: 1620026778}
   ballTrail: {fileID: 240507983}
+  innerWall: {fileID: 0}
   lastVelocity: {x: 0, y: 0}
   moveSpeed: 5
   isSpiked: 0
-  wasSpikedAboveScoreLine: 0
   isScored: 0
   ownedBy: 0
 --- !u!1 &1644840362
@@ -5084,27 +5079,26 @@ MonoBehaviour:
   isAI: 1
   rb: {fileID: 2044327002}
   playerTag: {fileID: 1788135973}
+  innerWall: {fileID: 0}
+  outerWall: {fileID: 0}
+  phaseFunction: 0
   upKey: 119
   leftKey: 97
   rightKey: 100
-  spikeKey: 0
+  smashKey: 113
   moveSpeed: 4000
   maxMoveSpeed: 3
   jumpForce: 7
   maxJumpCount: 3
-  isGrounded: 0
+  cooldownFill: {fileID: 1414665979}
   hitForce: 10
-  maxSpikeCooldown: 1
-  currentSpikeCooldown: 0
-  canSpike: 0
-  isBallInSpikeRange: 0
-  canBeHit: 0
+  maxHitCooldown: 0.75
+  currentHitCooldown: 0
   isKnockedOut: 0
-  maxKOCooldown: 0
-  isOpponentInHitRange: 0
+  canRecover: 0
+  maxKOTime: 5
   ballXRange: 5
   ballYRange: 5
-  cooldownFill: {fileID: 1414665979}
 --- !u!50 &2044327002
 Rigidbody2D:
   serializedVersion: 4
@@ -5326,27 +5320,26 @@ MonoBehaviour:
   isAI: 1
   rb: {fileID: 2080237461}
   playerTag: {fileID: 1507467084}
+  innerWall: {fileID: 0}
+  outerWall: {fileID: 0}
+  phaseFunction: 0
   upKey: 264
   leftKey: 260
   rightKey: 262
-  spikeKey: 0
+  smashKey: 263
   moveSpeed: 4000
   maxMoveSpeed: 3
   jumpForce: 7
   maxJumpCount: 3
-  isGrounded: 0
+  cooldownFill: {fileID: 318086286}
   hitForce: 10
-  maxSpikeCooldown: 1
-  currentSpikeCooldown: 0
-  canSpike: 0
-  isBallInSpikeRange: 0
-  canBeHit: 0
+  maxHitCooldown: 0.75
+  currentHitCooldown: 0
   isKnockedOut: 0
-  maxKOCooldown: 0
-  isOpponentInHitRange: 0
+  canRecover: 0
+  maxKOTime: 5
   ballXRange: 5
   ballYRange: 5
-  cooldownFill: {fileID: 318086286}
 --- !u!50 &2080237461
 Rigidbody2D:
   serializedVersion: 4
