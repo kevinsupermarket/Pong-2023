@@ -9,18 +9,6 @@ public class Goal : MonoBehaviour
     Ball ball;
     ScoreLine scoreLine;
 
-<<<<<<< HEAD
-=======
-    public int lastTeamtoScore; // referenced by Ball script
-
-    public static Goal Instance;
-
-    private void Awake()
-    {
-        Instance = this;
-    }
-
->>>>>>> parent of 1136a54 (ugh)
     private void Start()
     {
         scoreLine = FindObjectOfType<ScoreLine>();
@@ -42,10 +30,6 @@ public class Goal : MonoBehaviour
                 if (ball.ownedBy == 0)
                 {
                     GameManager.Instance.homeScore += 1;
-<<<<<<< HEAD
-=======
-                    lastTeamtoScore = 0;
->>>>>>> parent of 1136a54 (ugh)
 
                     if (GameManager.Instance.homeScore == GameManager.Instance.maxScore)
                     {
@@ -57,11 +41,6 @@ public class Goal : MonoBehaviour
                 {
                     GameManager.Instance.awayScore += 1;
 
-<<<<<<< HEAD
-=======
-                    lastTeamtoScore = 1;
-
->>>>>>> parent of 1136a54 (ugh)
                     if (GameManager.Instance.awayScore == GameManager.Instance.maxScore)
                     {
                         GameManager.Instance.gameOver = true;
@@ -87,10 +66,6 @@ public class Goal : MonoBehaviour
                 if (ball.ownedBy == 0)
                 {
                     GameManager.Instance.awayScore += 1;
-<<<<<<< HEAD
-=======
-                    lastTeamtoScore = 1;
->>>>>>> parent of 1136a54 (ugh)
 
                     if (GameManager.Instance.awayScore == GameManager.Instance.maxScore)
                     {
@@ -101,10 +76,6 @@ public class Goal : MonoBehaviour
                 if (ball.ownedBy == 1)
                 {
                     GameManager.Instance.homeScore += 1;
-<<<<<<< HEAD
-=======
-                    lastTeamtoScore = 0;
->>>>>>> parent of 1136a54 (ugh)
 
                     if (GameManager.Instance.homeScore == GameManager.Instance.maxScore)
                     {
