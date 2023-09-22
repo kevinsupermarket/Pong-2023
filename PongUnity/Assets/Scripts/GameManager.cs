@@ -16,8 +16,6 @@ public class GameManager : MonoBehaviour
     Player[] players;
     Ball ball;
 
-    public GameObject scoreLine;
-
     public int homeScore, awayScore, maxScore;
     public bool gameOver;
 
@@ -32,7 +30,6 @@ public class GameManager : MonoBehaviour
     {
         players = FindObjectsOfType<Player>();
         ball = FindObjectOfType<Ball>();
-        scoreLine = FindObjectOfType<ScoreLine>().gameObject;
     }
 
     // Update is called once per frame
@@ -43,11 +40,11 @@ public class GameManager : MonoBehaviour
 
         if (homeScore == maxScore)
         {
-            winText.text = "PLAYER 1 IS\nWINNER\n\nPRESS " + startKey + " TO\nRESTART";
+            winText.text = "HOME TEAM IS\nWINNER\n\nPRESS " + startKey + " TO\nRESTART";
         }
         else if (awayScore == maxScore)
         {
-            winText.text = "PLAYER 2 IS\nWINNER\n\nPRESS " + startKey + " TO\nRESTART";
+            winText.text = "AWAY TEAM IS\nWINNER\n\nPRESS " + startKey + " TO\nRESTART";
         }
 
         if (gameOver && Input.GetKeyDown(startKey))

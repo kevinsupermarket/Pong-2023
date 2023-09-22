@@ -119,7 +119,9 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // hit cooldown bar
         UpdateFillUI();
+
         // let this thing move itself if it's an AI
         if (isAI)
         {
@@ -160,8 +162,6 @@ public class Player : MonoBehaviour
 
             canSpike = false;
             StartCoroutine(SpikeCooldown());
-
-            print("Ball was spiked!");
         }
 
         // hit opponents -- NEED TO ADD RANDOMNESS FOR AI HERE!
@@ -193,7 +193,7 @@ public class Player : MonoBehaviour
         }
 
         // make sure player tag stays on player
-        playerTag.transform.position = new Vector3(transform.position.x, transform.position.y + 1, transform.position.z);
+        playerTag.transform.position = new Vector3(transform.position.x, transform.position.y + 1.4f, transform.position.z);
 
     }
 
@@ -338,8 +338,8 @@ public class Player : MonoBehaviour
             collision.gameObject.GetComponent<Ball>().isSpiked = false;
         }
 
-        // get jumps back when landing on a Wall
-        if (collision.gameObject.GetComponent<Wall>())
+        // get jumps back when landing on a floor Wall
+        if (collision.gameObject.GetComponent<Wall>() && collision.gameObject.GetComponent<Wall>().isFloor)
         {
             isGrounded = true;
             hasJumped = false;
@@ -355,8 +355,8 @@ public class Player : MonoBehaviour
 
     private void OnCollisionExit2D(Collision2D collision)
     {
-        // subtract a jump when leaving a Wall
-        if (collision.gameObject.GetComponent<Wall>())
+        // subtract a jump when leaving a floor Wall
+        if (collision.gameObject.GetComponent<Wall>() && collision.gameObject.GetComponent<Wall>().isFloor)
         {
             isGrounded = false;
         }
