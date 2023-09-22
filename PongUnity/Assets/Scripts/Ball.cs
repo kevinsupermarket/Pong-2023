@@ -7,18 +7,16 @@ public class Ball : MonoBehaviour
 {
     public Rigidbody2D rb;
     public TrailRenderer ballTrail;
+    public GameObject innerWall;
 
     public Vector2 lastVelocity;
 
     public float moveSpeed;
 
     public bool isSpiked;
-    public bool wasSpikedAboveScoreLine;
 
     public bool isScored;
     public float ownedBy;
-
-    Vector2 spawnPoint;
 
     public static Ball Instance;
 
@@ -35,27 +33,24 @@ public class Ball : MonoBehaviour
 
         // -1 is "unowned" value, 0 is home, 1 is away
         ownedBy = -1;
-
-        // save spawnpoint as current position of object
-        spawnPoint = transform.position;
     }
 
     private void Update()
     {
         lastVelocity = rb.velocity;
+    }
 
-        // change ball's color & trail color based on ownership
-        if (ownedBy == -1)
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.GetComponent<Wall>())
         {
-            GetComponent<SpriteRenderer>().color = new Color(255, 255, 255);
-        }
-        if (ownedBy == 0)
-        {
-            GetComponent<SpriteRenderer>().color = new Color(0, 0, 255);
-        }
-        if (ownedBy == 1)
-        {
-            GetComponent<SpriteRenderer>().color = new Color(255, 0, 0);
+            /* THIS NEEDS TO BE CHANGED!
+             - cannot bounce horizontally
+             - will always bounce vertically even if colliding with a horizontal wall
+             - need to find a good method to detect which way to bounce
+            */
+
+            rb.velocity = new Vector2(lastVelocity.x, -lastVelocity.y * 0.9f);
         }
     }
 
@@ -66,8 +61,10 @@ public class Ball : MonoBehaviour
             yield return new WaitForSeconds(2);
         }
 
-        // reset at ball spawnpoint (no specific point saved currently, so just using 0,0)
-        transform.position = spawnPoint;
+        isScored = false;
+        ownedBy = -1;
+
+        transform.position = Vector3.zero;
 
         // resets trail position
         for (var i = 0; i < ballTrail.positionCount; i++)
@@ -75,21 +72,8 @@ public class Ball : MonoBehaviour
             ballTrail.SetPosition(i, transform.position);
         }
 
-        // move towards loser of last point
-        if (Goal.Instance.lastTeamToScore == 0)
-        {
-            rb.velocity = Vector2.right * moveSpeed;
-        }
-        else if (Goal.Instance.lastTeamToScore == 1)
-        {
-            rb.velocity = Vector2.left * moveSpeed;
-        }
-
-        // reset score & ownership states
-        isScored = false;
-        isSpiked = false;
-        wasSpikedAboveScoreLine = false;
-        ownedBy = -1;
+        // move towards winner of last point
+        rb.velocity = Vector2.left * moveSpeed;
 
         yield break;
     }
