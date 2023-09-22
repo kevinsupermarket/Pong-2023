@@ -41,13 +41,21 @@ public class Player : MonoBehaviour
     int currentJumpCount;
     bool hasJumped;
     bool isGrounded;
+<<<<<<< HEAD
     public Image cooldownFill;
+=======
+>>>>>>> parent of 1136a54 (ugh)
 
     // hitting vars
     public float hitForce;
     public float maxHitCooldown;
+<<<<<<< HEAD
     public float currentHitCooldown;
     bool canHit;
+=======
+    float currentHitCooldown;
+    public bool canHit;
+>>>>>>> parent of 1136a54 (ugh)
 
     // in-game team vars
     float courtSide;
@@ -103,7 +111,10 @@ public class Player : MonoBehaviour
         currentHitCooldown = maxHitCooldown;
         currentJumpCount = maxJumpCount;
         currentKOTime = maxKOTime;
+<<<<<<< HEAD
  
+=======
+>>>>>>> parent of 1136a54 (ugh)
 
         // show tag above player if not an AI
         if (!isAI)
@@ -194,6 +205,7 @@ public class Player : MonoBehaviour
     }
 
     public void MoveAuto()
+<<<<<<< HEAD
     {
         /* THIS NEEDS UPDATING!
          - players should be able to move anywhere between the two inner walls 
@@ -252,6 +264,73 @@ public class Player : MonoBehaviour
     public void CheckForHit()
     {
         if (!canHit)
+=======
+    {
+        /* THIS NEEDS UPDATING!
+         - AI players should be able to move anywhere between the two inner walls 
+        */
+
+
+        if (Ball.Instance.ownedBy != teamIdentity)
+>>>>>>> parent of 1136a54 (ugh)
+        {
+            currentHitCooldown -= Time.deltaTime;
+        }
+        else if (canHit && currentHitCooldown != maxHitCooldown)
+        {
+            currentHitCooldown = maxHitCooldown;
+        }
+
+        if (currentHitCooldown <= 0)
+        {
+            canHit = true;
+        }
+    }
+
+<<<<<<< HEAD
+    public void CheckForKO()
+=======
+    public void SpeedLimiter()
+    {
+        if (rb.velocity.x > maxMoveSpeed)
+        {
+            rb.velocity = new Vector2(maxMoveSpeed, rb.velocity.y);
+        }
+
+        if (rb.velocity.x < -maxMoveSpeed)
+        {
+            rb.velocity = new Vector2(-maxMoveSpeed, rb.velocity.y);
+        }
+    }
+
+    public void Jump()
+    {
+        hasJumped = true;
+        rb.velocity = new Vector2(rb.velocity.x, jumpForce);
+        currentJumpCount--;
+    }
+
+    public IEnumerator AutoJump()
+>>>>>>> parent of 1136a54 (ugh)
+    {
+        currentHitCooldown = 0;
+        currentKOTime -= Time.deltaTime;
+
+        if (currentKOTime <= 0)
+        {
+            currentHitCooldown = maxHitCooldown;
+            canRecover = true;
+        }
+<<<<<<< HEAD
+=======
+        // delay next jump request by the values in Random.Range
+        yield return new WaitForSeconds(Random.Range(0.25f, 0.4f));
+        hasJumped = false;
+    }
+
+    public void CheckForHit()
+    {
+        if (!canHit)
         {
             currentHitCooldown -= Time.deltaTime;
         }
@@ -276,6 +355,7 @@ public class Player : MonoBehaviour
             currentHitCooldown = maxHitCooldown;
             canRecover = true;
         }
+>>>>>>> parent of 1136a54 (ugh)
     }
 
 
@@ -305,7 +385,11 @@ public class Player : MonoBehaviour
             }
 
             // manual controls
+<<<<<<< HEAD
             // hit ball (combo movement keys with spike to spike in different directions), tell ball who it's owned by (last hitter's team), un-spike ball
+=======
+            // hit ball in direction of current movement, tell ball who it's owned by (last hitter's team), un-spike ball
+>>>>>>> parent of 1136a54 (ugh)
             if (Input.GetKey(leftKey))
             {
                 collision.gameObject.GetComponent<Ball>().rb.velocity = new Vector2(rb.velocity.x, hitForce);
@@ -357,7 +441,11 @@ public class Player : MonoBehaviour
         if (collision.gameObject.GetComponent<Ball>())
         {
             // auto controls
+<<<<<<< HEAD
             if (isAI && transform.position.y >= GameManager.Instance.scoreLine.transform.position.y)
+=======
+            if (isAI && transform.position.y >= GameManager.Instance.scoreLine.transform.position.y && canHit)
+>>>>>>> parent of 1136a54 (ugh)
             {
                 if (rb.velocity.x < 0) // moving left
                 {
@@ -376,8 +464,18 @@ public class Player : MonoBehaviour
 
                 collision.gameObject.GetComponent<Ball>().ownedBy = teamIdentity;
                 collision.gameObject.GetComponent<Ball>().isSpiked = true;
+<<<<<<< HEAD
             }
 
+=======
+
+                // start the spike cooldown for AI
+                canHit = false;
+            }
+
+            // manual controls
+            // combo movement keys (left, right, or neither) with spike to spike in different directions
+>>>>>>> parent of 1136a54 (ugh)
             if (Input.GetKeyDown(smashKey) && canHit)
             {
                 if (Input.GetKey(leftKey))
@@ -397,13 +495,29 @@ public class Player : MonoBehaviour
 
                 collision.gameObject.GetComponent<Ball>().ownedBy = teamIdentity;
                 collision.gameObject.GetComponent<Ball>().isSpiked = true;
+<<<<<<< HEAD
+=======
+                print("Ball was spiked!");
+>>>>>>> parent of 1136a54 (ugh)
             }
         }
 
         // hit opponents away in trigger zone
         if (collision.gameObject.GetComponent<Player>() && collision.gameObject.GetComponent<Player>().teamIdentity != teamIdentity)
         {
+<<<<<<< HEAD
             if (Input.GetKeyDown(smashKey))
+=======
+            // auto controls
+            if (isAI && canHit)
+            {
+                collision.gameObject.GetComponent<Player>().rb.velocity = new Vector2(hitForce * hitTrigger.offset.x, hitForce / 2);
+                canHit = false;
+            }
+
+            // manual controls
+            if (Input.GetKeyDown(smashKey) && canHit)
+>>>>>>> parent of 1136a54 (ugh)
             {
                 // "hitTrigger.offset.x" used to determine direction to hit player towards (hit players left when facing left, vice versa)
                 collision.gameObject.GetComponent<Player>().rb.velocity = new Vector2(hitForce * hitTrigger.offset.x, hitForce / 2);
