@@ -182,7 +182,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &127389868
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1033,6 +1033,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   canKnockOutPlayers: 0
+  ballBounceDirection: 0
+  isFloor: 0
 --- !u!1 &197012566
 GameObject:
   m_ObjectHideFlags: 0
@@ -1478,6 +1480,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   canKnockOutPlayers: 1
+  ballBounceDirection: 0
+  isFloor: 0
 --- !u!1 &318086285
 GameObject:
   m_ObjectHideFlags: 0
@@ -1993,7 +1997,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &447607908
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2721,6 +2725,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   canKnockOutPlayers: 1
+  ballBounceDirection: 0
+  isFloor: 0
 --- !u!1 &559432017
 GameObject:
   m_ObjectHideFlags: 0
@@ -3027,6 +3033,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   canKnockOutPlayers: 1
+  ballBounceDirection: 0
+  isFloor: 0
 --- !u!1 &642438570
 GameObject:
   m_ObjectHideFlags: 0
@@ -3199,6 +3207,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   canKnockOutPlayers: 1
+  ballBounceDirection: 0
+  isFloor: 0
 --- !u!1 &668407598
 GameObject:
   m_ObjectHideFlags: 0
@@ -3556,6 +3566,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   canKnockOutPlayers: 0
+  ballBounceDirection: 0
+  isFloor: 0
 --- !u!1 &1352178997
 GameObject:
   m_ObjectHideFlags: 0
@@ -4323,6 +4335,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   canKnockOutPlayers: 0
+  ballBounceDirection: 0
+  isFloor: 0
 --- !u!1 &1620026777
 GameObject:
   m_ObjectHideFlags: 0
@@ -5068,7 +5082,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &2044327001
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5310,7 +5324,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &2080237460
 MonoBehaviour:
   m_ObjectHideFlags: 0

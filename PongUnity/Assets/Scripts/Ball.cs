@@ -59,7 +59,12 @@ public class Ball : MonoBehaviour
         }
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
+
+    /// <summary>
+    /// Carl's awesome ball bounce code
+    /// </summary>
+    /// <returns></returns>
+/*    private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.GetComponent<Wall>())
         {
@@ -72,7 +77,7 @@ public class Ball : MonoBehaviour
                 rb.velocity = new Vector2(-lastVelocity.x, lastVelocity.y * 0.9f);
             }
         }
-    }
+    }*/
 
     public IEnumerator ResetPosition()
     {
