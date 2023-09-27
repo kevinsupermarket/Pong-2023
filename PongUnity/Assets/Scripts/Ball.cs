@@ -7,6 +7,8 @@ public class Ball : MonoBehaviour
 {
     public Rigidbody2D rb;
     public TrailRenderer ballTrail;
+    public LineRenderer ballSpikeDirLine;
+    public Sprite ballNeutral, ballHome, ballAway;
 
     public Vector2 lastVelocity;
 
@@ -47,16 +49,29 @@ public class Ball : MonoBehaviour
         // change ball's color & trail color based on ownership
         if (ownedBy == -1)
         {
-            GetComponent<SpriteRenderer>().color = new Color(255, 255, 255);
+            GetComponent<SpriteRenderer>().sprite = ballNeutral;
         }
         if (ownedBy == 0)
         {
-            GetComponent<SpriteRenderer>().color = new Color(0, 0, 255);
+            GetComponent<SpriteRenderer>().sprite = ballHome;
         }
         if (ownedBy == 1)
         {
-            GetComponent<SpriteRenderer>().color = new Color(255, 0, 0);
+            GetComponent<SpriteRenderer>().sprite = ballAway;
         }
+    }
+
+    public IEnumerator SetSpikeDirLinePos(float hitForceX, float hitForceY)
+    {
+        ballSpikeDirLine.positionCount = 2;
+        ballSpikeDirLine.SetPosition(0, ballSpikeDirLine.gameObject.transform.localPosition);
+        ballSpikeDirLine.SetPosition(1, new Vector2(transform.position.x + hitForceX, hitForceY));
+
+        yield return new WaitUntil(() => rb.constraints == ~RigidbodyConstraints2D.FreezePosition);
+
+        ballSpikeDirLine.positionCount = 0;
+
+        yield break;
     }
 
 
