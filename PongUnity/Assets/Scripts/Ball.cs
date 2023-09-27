@@ -20,6 +20,8 @@ public class Ball : MonoBehaviour
 
     Vector2 spawnPoint;
 
+    public AudioSource audioBouncePlayer;
+
     public static Ball Instance;
 
 
@@ -57,6 +59,15 @@ public class Ball : MonoBehaviour
         {
             GetComponent<SpriteRenderer>().color = new Color(255, 0, 0);
         }
+    }
+
+    public void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.tag == "CollisionTag")
+        {
+            audioBouncePlayer.Play();
+        }
+        
     }
 
 
