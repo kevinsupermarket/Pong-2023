@@ -64,6 +64,7 @@ public class Player : MonoBehaviour
 
     public Image cooldownFill;
     public AudioSource audioSpikePlayer;
+    public AudioSource audioJumpPlayer;
 
     void Awake()
     {
@@ -241,6 +242,7 @@ public class Player : MonoBehaviour
     {
         hasJumped = true;
         rb.velocity = new Vector2(rb.velocity.x, jumpForce);
+        audioJumpPlayer.Play();
         currentJumpCount--;
     }
 
@@ -284,6 +286,7 @@ public class Player : MonoBehaviour
         if (!hasJumped)
         {
             rb.velocity = new Vector2(rb.velocity.x, jumpForce);
+            audioSpikePlayer.Play();
             currentJumpCount--;
             hasJumped = true;
         }
