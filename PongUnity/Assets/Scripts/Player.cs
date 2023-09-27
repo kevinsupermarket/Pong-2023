@@ -65,6 +65,7 @@ public class Player : MonoBehaviour
     public Image cooldownFill;
     public AudioSource audioSpikePlayer;
     public AudioSource audioJumpPlayer;
+    public AudioSource audioGruntPlayer;
 
     void Awake()
     {
@@ -148,12 +149,14 @@ public class Player : MonoBehaviour
             if (GetComponent<SpriteRenderer>().flipX) // moving left
             {
                 audioSpikePlayer.Play();
+                audioGruntPlayer.Play();
                 ball.rb.velocity = new Vector2(-hitForce, -hitForce * 2);
             }
 
             else if (!GetComponent<SpriteRenderer>().flipX) // moving right
             {
                 audioSpikePlayer.Play();
+                audioGruntPlayer.Play();
                 ball.rb.velocity = new Vector2(hitForce, -hitForce * 2);
             }
 
