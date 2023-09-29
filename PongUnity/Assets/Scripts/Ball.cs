@@ -8,6 +8,8 @@ public class Ball : MonoBehaviour
     public Rigidbody2D rb;
     public TrailRenderer ballTrail;
 
+    public GameObject OnExplosion;
+
     public Vector2 lastVelocity;
 
     public float moveSpeed;
@@ -112,5 +114,13 @@ public class Ball : MonoBehaviour
         ownedBy = -1;
 
         yield break;
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (isSpiked && collision.gameObject.GetComponent<Wall>() && collision.gameObject.GetComponent<Wall>().isFloor)
+        {
+            Instantiate(OnExplosion, transform.position, transform.rotation);
+        }
     }
 }
