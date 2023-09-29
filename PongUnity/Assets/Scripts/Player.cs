@@ -64,9 +64,6 @@ public class Player : MonoBehaviour
 
     public Image cooldownFill;
 
-    // onExplosion
-    public GameObject OnExplosion;
-
     void Awake()
     {
         Instance = this;
