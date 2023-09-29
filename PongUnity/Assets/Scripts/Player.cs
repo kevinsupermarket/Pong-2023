@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using UnityEditor.Tilemaps;
 using UnityEngine;
 using UnityEngine.U2D;
 using UnityEngine.UI;
@@ -45,17 +46,21 @@ public class Player : MonoBehaviour
     public float maxSpikeCooldown;
     float currentSpikeCooldown;
     public float maxHitstopTime;
-    public float currentHitstopTime;
+    float currentHitstopTime;
     public bool canSpike;
     public bool isBallInSpikeRange;
+    bool spikedTheBall;
 
     // in-game team vars
     float courtSide;
     float teamIdentity;
 
     // sumo stuff
-    public bool canBeHit;
+    public bool wasHit;
+    public float maxHitStunCooldown;
+    public float currentHitstunCooldown;
     public bool isKnockedOut;
+    public bool canRecover;
     public float maxKOCooldown;
     float currentKOCooldown;
     public bool isOpponentInHitRange;
@@ -110,6 +115,7 @@ public class Player : MonoBehaviour
         currentHitstopTime = maxHitstopTime;
         currentSpikeCooldown = maxSpikeCooldown;
         currentKOCooldown = maxKOCooldown;
+        currentHitstunCooldown = maxHitStunCooldown;
 
         // disable player crosshair if an AI
         if (isAI)
@@ -163,12 +169,15 @@ public class Player : MonoBehaviour
                 StartCoroutine(SpikeHitstop());
                 ball.ownedBy = teamIdentity;
                 ball.isSpiked = true;
+                spikedTheBall = true;
             }
 
             // hit opponents
             if (isOpponentInHitRange)
             {
                 // "hitTrigger.offset.x" used to determine direction to hit player towards (hit players left when facing left, vice versa)
+                opponentInHitRange.wasHit = true;
+                StartCoroutine(opponentInHitRange.HitstunCooldown());
                 opponentInHitRange.rb.velocity = new Vector2(hitForce * hitTrigger.offset.x, hitForce / 2);
             }
 
@@ -179,6 +188,11 @@ public class Player : MonoBehaviour
         // AI spike the ball -- NEED TO ADD RANDOMNESS FOR AI HERE!
         if (isAI && isBallInSpikeRange && canSpike)
         {
+            StartCoroutine(SpikeHitstop());
+            ball.ownedBy = teamIdentity;
+            ball.isSpiked = true;
+            spikedTheBall = true;
+
             StartCoroutine(SpikeCooldown());
             canSpike = false;
         }
@@ -186,7 +200,8 @@ public class Player : MonoBehaviour
         // AI hit opponents -- NEED TO ADD RANDOMNESS FOR AI HERE!
         if (isAI && isOpponentInHitRange && canSpike)
         {
-            // "hitTrigger.offset.x" used to determine direction to hit player towards (hit players left when facing left, vice versa)
+            opponentInHitRange.wasHit = true;
+            StartCoroutine(opponentInHitRange.HitstunCooldown());
             opponentInHitRange.rb.velocity = new Vector2(hitForce * hitTrigger.offset.x, hitForce / 2);
 
             StartCoroutine(SpikeCooldown());
@@ -194,7 +209,7 @@ public class Player : MonoBehaviour
         }
 
         // count down the cooldown for hitstop
-        if (ball.isSpiked && ball.rb.constraints == RigidbodyConstraints2D.FreezeAll)
+        if (spikedTheBall && ball.isSpiked && ball.rb.constraints == RigidbodyConstraints2D.FreezeAll)
         {
             currentHitstopTime -= Time.deltaTime;
         }
@@ -205,14 +220,20 @@ public class Player : MonoBehaviour
             currentSpikeCooldown -= Time.deltaTime;
         }
 
+        // count down the cooldown for hitstun
+        if (wasHit)
+        {
+            currentHitstunCooldown -= Time.deltaTime;
+        }
+
         // count down the cooldown for KO
         if (isKnockedOut)
         {
             currentKOCooldown -= Time.deltaTime;
         }
 
-
-        if (!isAI && (Input.GetKey(leftKey) || Input.GetKey(rightKey)))
+        // move manually if not AI & not in hitstun
+        if (!isAI && !wasHit && (Input.GetKey(leftKey) || Input.GetKey(rightKey)))
         {
             Move(GetDirection());
             SpeedLimiter();
@@ -227,19 +248,21 @@ public class Player : MonoBehaviour
 
     public Vector2 GetDirection()
     {
-        float horizontal = Input.GetAxis("Horizontal");
+        int horizontal = 0;
+        if (Input.GetKey(leftKey)) horizontal = -1;
+        if (Input.GetKey(rightKey)) horizontal = 1;
         return new Vector2(horizontal, 0);
     }
 
     public void Move(Vector2 direction)
     {
-        if (direction.x < 0)
+        if (direction.x < 0 && rb.constraints != RigidbodyConstraints2D.FreezeAll)
         {
             GetComponent<SpriteRenderer>().flipX = true;
             hitTrigger.offset = new Vector2(-hitTriggerOffsetX, hitTrigger.offset.y);
             crosshair.transform.localPosition = new Vector2(-crosshairPosX, crosshair.transform.localPosition.y);
         }
-        else if (direction.x > 0)
+        else if (direction.x > 0 && rb.constraints != RigidbodyConstraints2D.FreezeAll)
         {
             GetComponent<SpriteRenderer>().flipX = false;
             hitTrigger.offset = new Vector2(hitTriggerOffsetX, hitTrigger.offset.y);
@@ -321,14 +344,19 @@ public class Player : MonoBehaviour
     public IEnumerator SpikeHitstop()
     {
         // un-hitstop any players already in hitstop
+        if (ball.rb.constraints == RigidbodyConstraints2D.FreezeAll)
+        {
+            ball.rb.constraints = ~RigidbodyConstraints2D.FreezePosition;
+        }
         foreach (Player player in FindObjectsOfType<Player>())
         {
             if (player.rb.constraints == RigidbodyConstraints2D.FreezeAll)
             {
-                player.rb.constraints = ~RigidbodyConstraints2D.FreezeAll;
+                player.rb.constraints = ~RigidbodyConstraints2D.FreezePosition;
                 player.rb.velocity = player.lastVelocity;
                 player.currentHitstopTime = player.maxHitstopTime;
             }
+            player.spikedTheBall = false;
         }
 
         lastVelocity = rb.velocity;
@@ -337,13 +365,14 @@ public class Player : MonoBehaviour
         ball.rb.constraints = RigidbodyConstraints2D.FreezeAll;
         ball.rb.angularVelocity = 0;
 
+        // show the spike direction line in the ball while in hitstop
         if (GetComponent<SpriteRenderer>().flipX)
         {
-            StartCoroutine(ball.SetSpikeDirLinePos(hitForce, -hitForce * 2));
+            StartCoroutine(ball.SetSpikeDirLinePos(-hitForce, -hitForce * 2));
         }
         else
         {
-            StartCoroutine(ball.SetSpikeDirLinePos(-hitForce, -hitForce * 2));
+            StartCoroutine(ball.SetSpikeDirLinePos(hitForce, -hitForce * 2));
         }
 
         yield return new WaitUntil(() => currentHitstopTime <= 0);
@@ -384,15 +413,28 @@ public class Player : MonoBehaviour
         yield break;
     }
 
+    public IEnumerator HitstunCooldown()
+    {
+        yield return new WaitUntil(() => currentHitstunCooldown <= 0);
+
+        currentHitstunCooldown = maxHitStunCooldown;
+        wasHit = false;
+
+        yield break;
+    }
+
     public IEnumerator KOCooldown()
     {
         currentSpikeCooldown = 0;
+        canSpike = false;
 
         yield return new WaitUntil(() => currentKOCooldown <= 0);
 
         currentSpikeCooldown = maxSpikeCooldown;
+        canSpike = true;
         currentKOCooldown = maxKOCooldown;
         isKnockedOut = false;
+        canRecover = true;
 
         foreach (WallIgnoreCol wallIgnoreCol in FindObjectsOfType<WallIgnoreCol>())
         {
@@ -411,16 +453,17 @@ public class Player : MonoBehaviour
             // un-hitstop the ball & any players if they're frozen
             if (ball.rb.constraints == RigidbodyConstraints2D.FreezeAll)
             {
-                ball.rb.constraints = ~RigidbodyConstraints2D.FreezeAll;
+                ball.rb.constraints = ~RigidbodyConstraints2D.FreezePosition;
             }
             foreach (Player player in FindObjectsOfType<Player>())
             {
                 if (player.rb.constraints == RigidbodyConstraints2D.FreezeAll)
                 {
-                    player.rb.constraints = ~RigidbodyConstraints2D.FreezeAll;
+                    player.rb.constraints = ~RigidbodyConstraints2D.FreezePosition;
                     player.rb.velocity = player.lastVelocity;
                     player.currentHitstopTime = player.maxHitstopTime;
                 }
+                player.spikedTheBall = false;
             }
 
             // hit the ball on collision with it -- ball is hit in the direction the player is facing
@@ -437,6 +480,7 @@ public class Player : MonoBehaviour
 
             collision.gameObject.GetComponent<Ball>().ownedBy = teamIdentity;
             collision.gameObject.GetComponent<Ball>().isSpiked = false;
+            spikedTheBall = false;
         }
 
         // get jumps back when landing on a floor Wall
@@ -474,11 +518,21 @@ public class Player : MonoBehaviour
         if (collision.gameObject.GetComponent<Ball>())
         {
             isBallInSpikeRange = true;
+
+            // make crosshair "glow" when something hittable is in range
+            Color crosshairGlow = crosshair.GetComponent<SpriteRenderer>().color;
+            crosshairGlow.a = 1;
+            crosshair.GetComponent<SpriteRenderer>().color = crosshairGlow;
         }
 
         if (collision.gameObject.GetComponent<Player>() && collision.gameObject.GetComponent<Player>().teamIdentity != teamIdentity)
         {
             isOpponentInHitRange = true;
+
+            Color crosshairGlow = crosshair.GetComponent<SpriteRenderer>().color;
+            crosshairGlow.a = 1;
+            crosshair.GetComponent<SpriteRenderer>().color = crosshairGlow;
+
             opponentInHitRange = collision.gameObject.GetComponent<Player>();
         }
     }
@@ -488,11 +542,21 @@ public class Player : MonoBehaviour
         if (collision.gameObject.GetComponent<Ball>())
         {
             isBallInSpikeRange = false;
+
+            // make crosshair stop "glowing" when no hittable thing is in range
+            Color crosshairGlow = crosshair.GetComponent<SpriteRenderer>().color;
+            crosshairGlow.a = 0.5f;
+            crosshair.GetComponent<SpriteRenderer>().color = crosshairGlow;
         }
 
         if (collision.gameObject.GetComponent<Player>() && collision.gameObject.GetComponent<Player>().teamIdentity != teamIdentity)
         {
             isOpponentInHitRange = false;
+
+            Color crosshairGlow = crosshair.GetComponent<SpriteRenderer>().color;
+            crosshairGlow.a = 0.5f;
+            crosshair.GetComponent<SpriteRenderer>().color = crosshairGlow;
+
             opponentInHitRange = null;
         }
     }
@@ -519,8 +583,11 @@ public class Player : MonoBehaviour
         currentJumpCount = maxJumpCount;
 
         // reset cooldowns, spike, and KO state
+        StopCoroutine(SpikeHitstop());
         canSpike = true;
         isKnockedOut = false;
+        canRecover = false;
+        wasHit = false;
         currentKOCooldown = maxKOCooldown;
         currentSpikeCooldown = maxSpikeCooldown;
         currentHitstopTime = maxHitstopTime;

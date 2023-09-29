@@ -212,12 +212,14 @@ MonoBehaviour:
   lastVelocity: {x: 0, y: 0}
   hitForce: 10
   maxSpikeCooldown: 1
-  maxHitstopTime: 0
-  currentHitstopTime: 0
+  maxHitstopTime: 0.8
   canSpike: 0
   isBallInSpikeRange: 0
-  canBeHit: 0
+  wasHit: 0
+  maxHitStunCooldown: 0.4
+  currentHitstunCooldown: 0
   isKnockedOut: 0
+  canRecover: 0
   maxKOCooldown: 5
   isOpponentInHitRange: 0
   ballXRange: 5
@@ -1019,7 +1021,7 @@ Transform:
   m_GameObject: {fileID: 188462203}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -5, z: 0}
+  m_LocalPosition: {x: 0, y: -5.01, z: 0}
   m_LocalScale: {x: 20, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1038,7 +1040,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   canKnockOutPlayers: 0
-  ballBounceDirection: 0
   isFloor: 1
 --- !u!1 &197012566
 GameObject:
@@ -1736,7 +1737,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   canKnockOutPlayers: 1
-  ballBounceDirection: 0
   isFloor: 0
 --- !u!1 &318086285
 GameObject:
@@ -2264,12 +2264,14 @@ MonoBehaviour:
   lastVelocity: {x: 0, y: 0}
   hitForce: 10
   maxSpikeCooldown: 1
-  maxHitstopTime: 1
-  currentHitstopTime: 0
+  maxHitstopTime: 0.8
   canSpike: 0
   isBallInSpikeRange: 0
-  canBeHit: 0
+  wasHit: 0
+  maxHitStunCooldown: 0.4
+  currentHitstunCooldown: 0
   isKnockedOut: 0
+  canRecover: 0
   maxKOCooldown: 5
   isOpponentInHitRange: 0
   ballXRange: 5
@@ -2444,12 +2446,14 @@ MonoBehaviour:
   lastVelocity: {x: 0, y: 0}
   hitForce: 10
   maxSpikeCooldown: 1
-  maxHitstopTime: 0
-  currentHitstopTime: 0
+  maxHitstopTime: 0.8
   canSpike: 0
   isBallInSpikeRange: 0
-  canBeHit: 0
+  wasHit: 0
+  maxHitStunCooldown: 0.4
+  currentHitstunCooldown: 0
   isKnockedOut: 0
+  canRecover: 0
   maxKOCooldown: 5
   isOpponentInHitRange: 0
   ballXRange: 5
@@ -2831,12 +2835,14 @@ MonoBehaviour:
   lastVelocity: {x: 0, y: 0}
   hitForce: 10
   maxSpikeCooldown: 1
-  maxHitstopTime: 0
-  currentHitstopTime: 0
+  maxHitstopTime: 0.8
   canSpike: 0
   isBallInSpikeRange: 0
-  canBeHit: 0
+  wasHit: 0
+  maxHitStunCooldown: 0.4
+  currentHitstunCooldown: 0
   isKnockedOut: 0
+  canRecover: 0
   maxKOCooldown: 5
   isOpponentInHitRange: 0
   ballXRange: 5
@@ -3087,8 +3093,8 @@ Transform:
   m_GameObject: {fileID: 520016220}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 8.775, y: -4.625, z: 0}
-  m_LocalScale: {x: 2, y: 0.25, z: 1}
+  m_LocalPosition: {x: 8.75, y: -4.625, z: 0}
+  m_LocalScale: {x: 2.25, y: 0.25, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 68096600}
@@ -3230,7 +3236,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   canKnockOutPlayers: 1
-  ballBounceDirection: 0
   isFloor: 0
 --- !u!1 &559432017
 GameObject:
@@ -3395,8 +3400,8 @@ Transform:
   m_GameObject: {fileID: 598352999}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -8.775, y: -4.625, z: 0}
-  m_LocalScale: {x: 2, y: 0.25, z: 1}
+  m_LocalPosition: {x: -8.75, y: -4.625, z: 0}
+  m_LocalScale: {x: 2.25, y: 0.25, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 68096600}
@@ -3538,7 +3543,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   canKnockOutPlayers: 1
-  ballBounceDirection: 0
   isFloor: 0
 --- !u!1 &624566584
 GameObject:
@@ -3796,7 +3800,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   canKnockOutPlayers: 1
-  ballBounceDirection: 0
   isFloor: 0
 --- !u!1 &668407598
 GameObject:
@@ -5829,12 +5832,14 @@ MonoBehaviour:
   lastVelocity: {x: 0, y: 0}
   hitForce: 10
   maxSpikeCooldown: 1
-  maxHitstopTime: 0
-  currentHitstopTime: 0
+  maxHitstopTime: 0.8
   canSpike: 0
   isBallInSpikeRange: 0
-  canBeHit: 0
+  wasHit: 0
+  maxHitStunCooldown: 0.4
+  currentHitstunCooldown: 0
   isKnockedOut: 0
+  canRecover: 0
   maxKOCooldown: 5
   isOpponentInHitRange: 0
   ballXRange: 5
@@ -6075,12 +6080,14 @@ MonoBehaviour:
   lastVelocity: {x: 0, y: 0}
   hitForce: 10
   maxSpikeCooldown: 1
-  maxHitstopTime: 0
-  currentHitstopTime: 0
+  maxHitstopTime: 0.8
   canSpike: 0
   isBallInSpikeRange: 0
-  canBeHit: 0
+  wasHit: 0
+  maxHitStunCooldown: 0.4
+  currentHitstunCooldown: 0
   isKnockedOut: 0
+  canRecover: 0
   maxKOCooldown: 5
   isOpponentInHitRange: 0
   ballXRange: 5
@@ -6597,7 +6604,7 @@ LineRenderer:
     shadowBias: 0.5
     generateLightingData: 0
   m_MaskInteraction: 0
-  m_UseWorldSpace: 0
+  m_UseWorldSpace: 1
   m_Loop: 0
   m_ApplyActiveColorSpace: 1
 --- !u!4 &2118629425

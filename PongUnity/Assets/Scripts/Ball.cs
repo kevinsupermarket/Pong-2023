@@ -64,8 +64,8 @@ public class Ball : MonoBehaviour
     public IEnumerator SetSpikeDirLinePos(float hitForceX, float hitForceY)
     {
         ballSpikeDirLine.positionCount = 2;
-        ballSpikeDirLine.SetPosition(0, ballSpikeDirLine.gameObject.transform.localPosition);
-        ballSpikeDirLine.SetPosition(1, new Vector2(transform.position.x + hitForceX, hitForceY));
+        ballSpikeDirLine.SetPosition(0, transform.position);
+        ballSpikeDirLine.SetPosition(1, new Vector2(transform.position.x + hitForceX, transform.position.y + hitForceY));
 
         yield return new WaitUntil(() => rb.constraints == ~RigidbodyConstraints2D.FreezePosition);
 
