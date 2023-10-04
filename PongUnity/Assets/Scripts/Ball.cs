@@ -128,4 +128,13 @@ public class Ball : MonoBehaviour
 
         yield break;
     }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        // reset ball state to neutral ownership when colliding with floor
+        if (collision.gameObject.GetComponent<Wall>() && collision.gameObject.GetComponent<Wall>().isFloor)
+        {
+            ownedBy = -1;
+        }
+    }
 }

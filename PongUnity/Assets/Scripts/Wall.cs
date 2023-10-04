@@ -17,6 +17,7 @@ public class Wall : MonoBehaviour
         {
             collision.gameObject.GetComponent<Player>().isKnockedOut = true;
 
+            // start KO cooldown
             StartCoroutine(collision.gameObject.GetComponent<Player>().KOCooldown());
 
             foreach (WallIgnoreCol wallIgnoreCol in FindObjectsOfType<WallIgnoreCol>())

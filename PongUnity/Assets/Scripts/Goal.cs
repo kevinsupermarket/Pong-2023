@@ -31,7 +31,7 @@ public class Goal : MonoBehaviour
             ball = collision.gameObject.GetComponent<Ball>();
 
 
-            // declare the ball as "scored" if the ball is owned by a team, was spiked, and has collided with this object
+            // declare the ball as "scored" if the ball is owned by a team, was spiked above score line, and has collided with this object
             if (ball && !ball.isScored && ball.isSpiked && ball.ownedBy != -1 && ball.wasSpikedAboveScoreLine)
             {
                 ball.isScored = true;
@@ -54,44 +54,6 @@ public class Goal : MonoBehaviour
                     lastTeamToScore = 1;
 
                     if (GameManager.Instance.awayScore == GameManager.Instance.maxScore)
-                    {
-                        GameManager.Instance.gameOver = true;
-                    }
-                }
-
-                if (!GameManager.Instance.gameOver)
-                {
-                    StartCoroutine(ball.ResetPosition());
-
-                    foreach (Player obj in FindObjectsOfType<Player>())
-                    {
-                        StartCoroutine(obj.ResetPosition());
-                    }
-                }
-            }
-
-            // give point to team Y if the ball is owned by team X, was NOT spiked (or was spiked below the score line), and has collided with this object
-            else if (ball && !ball.isScored && ball.ownedBy != -1 && (!ball.isSpiked || !ball.wasSpikedAboveScoreLine))
-            {
-                ball.isScored = true;
-
-                if (ball.ownedBy == 0)
-                {
-                    GameManager.Instance.awayScore += 1;
-                    lastTeamToScore = 1;
-
-                    if (GameManager.Instance.awayScore == GameManager.Instance.maxScore)
-                    {
-                        GameManager.Instance.gameOver = true;
-                    }
-                }
-
-                if (ball.ownedBy == 1)
-                {
-                    GameManager.Instance.homeScore += 1;
-                    lastTeamToScore = 0;
-
-                    if (GameManager.Instance.homeScore == GameManager.Instance.maxScore)
                     {
                         GameManager.Instance.gameOver = true;
                     }
