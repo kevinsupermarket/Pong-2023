@@ -219,6 +219,8 @@ MonoBehaviour:
   isOpponentInHitRange: 0
   ballXRange: 5
   ballYRange: 5
+  dustPrefab: {fileID: 0}
+  activeDust: {fileID: 0}
   cooldownFill: {fileID: 392987487}
 --- !u!50 &127389869
 Rigidbody2D:
@@ -2015,6 +2017,8 @@ MonoBehaviour:
   isOpponentInHitRange: 0
   ballXRange: 5
   ballYRange: 5
+  dustPrefab: {fileID: 7656607876354470387, guid: 2a51a3954cbbc224ba97a9ed7c3e34ad, type: 3}
+  activeDust: {fileID: 0}
   cooldownFill: {fileID: 1795025164}
 --- !u!61 &370895502
 BoxCollider2D:
@@ -2294,6 +2298,8 @@ MonoBehaviour:
   isOpponentInHitRange: 0
   ballXRange: 5
   ballYRange: 5
+  dustPrefab: {fileID: 0}
+  activeDust: {fileID: 0}
   cooldownFill: {fileID: 668407600}
 --- !u!50 &447607909
 Rigidbody2D:
@@ -2676,6 +2682,8 @@ MonoBehaviour:
   isOpponentInHitRange: 0
   ballXRange: 5
   ballYRange: 5
+  dustPrefab: {fileID: 7656607876354470387, guid: 2a51a3954cbbc224ba97a9ed7c3e34ad, type: 3}
+  activeDust: {fileID: 0}
   cooldownFill: {fileID: 236464539}
 --- !u!61 &479299526
 BoxCollider2D:
@@ -15588,6 +15596,8 @@ MonoBehaviour:
   isOpponentInHitRange: 0
   ballXRange: 5
   ballYRange: 5
+  dustPrefab: {fileID: 0}
+  activeDust: {fileID: 0}
   cooldownFill: {fileID: 1414665979}
 --- !u!50 &2044327002
 Rigidbody2D:
@@ -15830,6 +15840,8 @@ MonoBehaviour:
   isOpponentInHitRange: 0
   ballXRange: 5
   ballYRange: 5
+  dustPrefab: {fileID: 0}
+  activeDust: {fileID: 0}
   cooldownFill: {fileID: 318086286}
 --- !u!50 &2080237461
 Rigidbody2D:

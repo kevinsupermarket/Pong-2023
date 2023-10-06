@@ -59,6 +59,9 @@ public class Player : MonoBehaviour
     public float ballXRange;
     public float ballYRange;
 
+    //Player Partical PF
+    public GameObject dustPrefab;
+    //public ParticleSystem activeDust;
 
     public static Player Instance;
 
@@ -72,6 +75,10 @@ public class Player : MonoBehaviour
 
     private void Start()
     {
+
+        
+        //activeDust = newDust.GetComponent<ParticleSystem>();
+
         ball = FindObjectOfType<Ball>();
 
         // get the hit trigger from this game object's component list
@@ -207,6 +214,8 @@ public class Player : MonoBehaviour
 
     public void Move(Vector2 direction)
     {
+        CreateDust();
+
         if (direction.x < 0)
         {
             GetComponent<SpriteRenderer>().flipX = true;
@@ -236,6 +245,8 @@ public class Player : MonoBehaviour
 
     public void Jump()
     {
+        CreateDust();
+
         hasJumped = true;
         rb.velocity = new Vector2(rb.velocity.x, jumpForce);
         currentJumpCount--;
@@ -422,5 +433,11 @@ public class Player : MonoBehaviour
         }
 
         yield break;
+    }
+
+    //Player Dust Particle System
+    void CreateDust()
+    {
+        Instantiate(dustPrefab, new Vector3(transform.position.x, transform.position.y - 0.8f, transform.position.z), Quaternion.identity, null);
     }
 }
