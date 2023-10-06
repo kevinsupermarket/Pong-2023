@@ -1000,7 +1000,7 @@ GameObject:
   - component: {fileID: 188462210}
   m_Layer: 0
   m_Name: Center Floor
-  m_TagString: Untagged
+  m_TagString: CollisionTag
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4464,7 +4464,7 @@ GameObject:
   - component: {fileID: 1045261707}
   m_Layer: 3
   m_Name: Inner Wall Left
-  m_TagString: Untagged
+  m_TagString: CollisionTag
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -5471,7 +5471,7 @@ GameObject:
   - component: {fileID: 1521215139}
   m_Layer: 3
   m_Name: Inner Wall Right
-  m_TagString: Untagged
+  m_TagString: CollisionTag
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

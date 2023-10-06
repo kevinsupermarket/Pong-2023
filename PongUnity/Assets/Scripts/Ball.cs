@@ -22,6 +22,8 @@ public class Ball : MonoBehaviour
 
     Vector2 spawnPoint;
 
+    public AudioSource audioBouncePlayer;
+
     public static Ball Instance;
 
 
@@ -56,6 +58,14 @@ public class Ball : MonoBehaviour
         if (ownedBy == 1)
         {
             GetComponent<SpriteRenderer>().sprite = ballAway;
+        }
+    }
+
+    public void OnCollisionEnter2D(Collision2d collision)
+    {
+        if (collision.gameObject.tag == "CollisionTag")
+        {
+            audioBouncePlayer.Play();
         }
     }
 
