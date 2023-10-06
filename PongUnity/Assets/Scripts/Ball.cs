@@ -7,6 +7,8 @@ public class Ball : MonoBehaviour
 {
     public Rigidbody2D rb;
     public TrailRenderer ballTrail;
+    public LineRenderer ballSpikeDirLine;
+    public Sprite ballNeutral, ballHome, ballAway;
 
     public Vector2 lastVelocity;
 
@@ -19,8 +21,6 @@ public class Ball : MonoBehaviour
     public float ownedBy;
 
     Vector2 spawnPoint;
-
-    public AudioSource audioBouncePlayer;
 
     public static Ball Instance;
 
@@ -44,30 +44,32 @@ public class Ball : MonoBehaviour
 
     private void Update()
     {
-        lastVelocity = rb.velocity;
-
         // change ball's color & trail color based on ownership
         if (ownedBy == -1)
         {
-            GetComponent<SpriteRenderer>().color = new Color(255, 255, 255);
+            GetComponent<SpriteRenderer>().sprite = ballNeutral;
         }
         if (ownedBy == 0)
         {
-            GetComponent<SpriteRenderer>().color = new Color(0, 0, 255);
+            GetComponent<SpriteRenderer>().sprite = ballHome;
         }
         if (ownedBy == 1)
         {
-            GetComponent<SpriteRenderer>().color = new Color(255, 0, 0);
+            GetComponent<SpriteRenderer>().sprite = ballAway;
         }
     }
 
-    public void OnCollisionEnter2D(Collision2D collision)
+    public IEnumerator SetSpikeDirLinePos(float hitForceX, float hitForceY)
     {
-        if (collision.gameObject.tag == "CollisionTag")
-        {
-            audioBouncePlayer.Play();
-        }
-        
+        ballSpikeDirLine.positionCount = 2;
+        ballSpikeDirLine.SetPosition(0, transform.position);
+        ballSpikeDirLine.SetPosition(1, new Vector2(transform.position.x + hitForceX, transform.position.y + hitForceY));
+
+        yield return new WaitUntil(() => rb.constraints == RigidbodyConstraints2D.None);
+
+        ballSpikeDirLine.positionCount = 0;
+
+        yield break;
     }
 
 
@@ -97,7 +99,7 @@ public class Ball : MonoBehaviour
             yield return new WaitForSeconds(2);
         }
 
-        // reset at ball spawnpoint (no specific point saved currently, so just using 0,0)
+        // reset at ball spawnpoint
         transform.position = spawnPoint;
 
         // resets trail position
@@ -116,6 +118,9 @@ public class Ball : MonoBehaviour
             rb.velocity = Vector2.left * moveSpeed;
         }
 
+        // unfreeze if resetting during hitstop
+        rb.constraints = RigidbodyConstraints2D.None;
+
         // reset score & ownership states
         isScored = false;
         isSpiked = false;
@@ -123,5 +128,14 @@ public class Ball : MonoBehaviour
         ownedBy = -1;
 
         yield break;
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        // reset ball state to neutral ownership when colliding with floor
+        if (collision.gameObject.GetComponent<Wall>() && collision.gameObject.GetComponent<Wall>().isFloor)
+        {
+            ownedBy = -1;
+        }
     }
 }
