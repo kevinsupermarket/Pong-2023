@@ -49,7 +49,7 @@ public class Player : MonoBehaviour
     float currentHitstopTime;
     public bool canSpike;
     public bool isBallInSpikeRange;
-    bool spikedTheBall;
+    public bool spikedTheBall;
 
     // in-game team vars
     float courtSide;
@@ -83,6 +83,7 @@ public class Player : MonoBehaviour
 
     private void Start()
     {
+        // get the baaaaawll
         ball = FindObjectOfType<Ball>();
 
         // get the hit trigger from this game object's component list
@@ -95,8 +96,21 @@ public class Player : MonoBehaviour
             }
         }
 
+        // set the hit trigger and crosshair's position in relation to where player is facing
         crosshairPosX = crosshair.transform.localPosition.x;
 
+        if (GetComponent<SpriteRenderer>().flipX)
+        {
+            hitTrigger.offset = new Vector2(-hitTriggerOffsetX, hitTrigger.offset.y);
+            crosshair.transform.localPosition = new Vector2(-crosshairPosX, crosshair.transform.localPosition.y);
+        }
+        else
+        {
+            hitTrigger.offset = new Vector2(hitTriggerOffsetX, hitTrigger.offset.y);
+            crosshair.transform.localPosition = new Vector2(crosshairPosX, crosshair.transform.localPosition.y);
+        }
+
+        // determine what team the player is on based on x position from 0,0 (-1 = home, 1 = away)
         courtSide = Mathf.Sign(transform.position.x);
 
         // set team identity so ball can be scored properly
@@ -109,6 +123,7 @@ public class Player : MonoBehaviour
             teamIdentity = 1;
         }
 
+        // set cooldowns and whatnot
         canSpike = true;
 
         currentJumpCount = maxJumpCount;
@@ -161,6 +176,7 @@ public class Player : MonoBehaviour
             currentJumpCount = maxJumpCount;
         }
 
+
         // trigger cooldown when spike is performed
         if (canSpike && Input.GetKeyDown(spikeKey))
         {
@@ -191,6 +207,7 @@ public class Player : MonoBehaviour
 
                     ball.rb.constraints = RigidbodyConstraints2D.None;
                     ball.rb.velocity = ball.lastVelocity;
+                    ball.isSpiked = false;
 
                     opponentInHitRange.rb.constraints = ~RigidbodyConstraints2D.FreezePosition;
                     opponentInHitRange.rb.velocity = opponentInHitRange.lastVelocity;
@@ -208,53 +225,19 @@ public class Player : MonoBehaviour
             canSpike = false;
         }
 
-        // AI spike the ball -- NEED TO ADD RANDOMNESS FOR AI HERE!
+
+        // AI spike the ball
         if (isAI && isBallInSpikeRange && canSpike)
         {
-            if (ball.transform.position.y >= FindObjectOfType<ScoreLine>().transform.position.y)
-            {
-                ball.wasSpikedAboveScoreLine = true;
-            }
-            else
-            {
-                ball.wasSpikedAboveScoreLine = false;
-            }
-
-            // save ball's velocity before being frozen; useful for restoring velocity if ball is knocked out of hitstop
-            ball.lastVelocity = ball.rb.velocity;
-
-            StartCoroutine(SpikeHitstop());
-            ball.ownedBy = teamIdentity;
-            ball.isSpiked = true;
-            spikedTheBall = true;
-
-            StartCoroutine(SpikeCooldown());
-            canSpike = false;
+            StartCoroutine(AutoSpike());
         }
 
-        // AI hit opponents -- NEED TO ADD RANDOMNESS FOR AI HERE!
+        // AI hit opponents
         if (isAI && isOpponentInHitRange && canSpike)
         {
-            if (opponentInHitRange.spikedTheBall)
-            {
-                StopCoroutine(opponentInHitRange.SpikeHitstop());
-
-                ball.rb.constraints = RigidbodyConstraints2D.None;
-                ball.rb.velocity = ball.lastVelocity;
-
-                opponentInHitRange.rb.constraints = ~RigidbodyConstraints2D.FreezePosition;
-                opponentInHitRange.rb.velocity = opponentInHitRange.lastVelocity;
-                opponentInHitRange.currentHitstopTime = opponentInHitRange.maxHitstopTime;
-                opponentInHitRange.spikedTheBall = false;
-            }
-
-            opponentInHitRange.wasHit = true;
-            StartCoroutine(opponentInHitRange.HitstunCooldown());
-            opponentInHitRange.rb.velocity = new Vector2(hitForce * hitTrigger.offset.x, hitForce / 2);
-
-            StartCoroutine(SpikeCooldown());
-            canSpike = false;
+            StartCoroutine(AutoHitOpponents());
         }
+
 
         // count down the cooldown for hitstop
         if (spikedTheBall && ball.isSpiked && ball.rb.constraints == RigidbodyConstraints2D.FreezeAll)
@@ -280,6 +263,7 @@ public class Player : MonoBehaviour
             currentKOCooldown -= Time.deltaTime;
         }
 
+
         // move manually if not AI & not in hitstun
         if (!isAI && !wasHit && (Input.GetKey(leftKey) || Input.GetKey(rightKey)))
         {
@@ -289,7 +273,6 @@ public class Player : MonoBehaviour
 
         // make sure player tag stays on player
         playerTag.transform.position = new Vector3(transform.position.x, transform.position.y + 1.4f, transform.position.z);
-
     }
 
 
@@ -342,11 +325,7 @@ public class Player : MonoBehaviour
 
     public void AutoMove()
     {
-        /* THIS NEEDS UPDATING!
-         - AI players should wander around if ball is out of range
-        */
-
-        if (Ball.Instance.ownedBy != teamIdentity)
+        if (ball.ownedBy != teamIdentity)
         {
             // if ball is to the left of player's hit trigger, move left
             if (ball.transform.position.x < (transform.position.x + hitTrigger.offset.x) && ball.transform.position.x > (transform.position.x + hitTrigger.offset.x) - ballXRange)
@@ -373,6 +352,13 @@ public class Player : MonoBehaviour
                 }
             }
         }
+
+        // let AI recover from KO on its own
+        if (canRecover)
+        {
+            Move(new Vector2(-moveSpeed * Mathf.Sign(transform.position.x), 0));
+            SpeedLimiter();
+        }
     }
 
     public IEnumerator AutoJump()
@@ -387,15 +373,74 @@ public class Player : MonoBehaviour
         // delay next jump request by the values in Random.Range
         yield return new WaitForSeconds(Random.Range(0.25f, 0.4f));
         hasJumped = false;
+
+        yield break;
     }
+
+    public IEnumerator AutoSpike()
+    {
+        yield return new WaitForSeconds(Random.Range(0.05f, 0.2f));
+
+        if (isBallInSpikeRange)
+        {
+            if (ball.transform.position.y >= FindObjectOfType<ScoreLine>().transform.position.y)
+            {
+                ball.wasSpikedAboveScoreLine = true;
+            }
+            else
+            {
+                ball.wasSpikedAboveScoreLine = false;
+            }
+
+            // save ball's velocity before being frozen; useful for restoring velocity if ball is knocked out of hitstop
+            ball.lastVelocity = ball.rb.velocity;
+
+            StartCoroutine(SpikeHitstop());
+            ball.ownedBy = teamIdentity;
+            ball.isSpiked = true;
+            spikedTheBall = true;
+        }
+
+        StartCoroutine(SpikeCooldown());
+        canSpike = false;
+
+        yield break;
+    }
+
+    public IEnumerator AutoHitOpponents()
+    {
+        yield return new WaitForSeconds(Random.Range(0.125f, 0.25f));
+
+        if (opponentInHitRange)
+        {
+            if (opponentInHitRange.spikedTheBall)
+            {
+                StopCoroutine(opponentInHitRange.SpikeHitstop());
+
+                ball.rb.constraints = RigidbodyConstraints2D.None;
+                ball.rb.velocity = ball.lastVelocity;
+                ball.isSpiked = false;
+
+                opponentInHitRange.rb.constraints = ~RigidbodyConstraints2D.FreezePosition;
+                opponentInHitRange.rb.velocity = opponentInHitRange.lastVelocity;
+                opponentInHitRange.currentHitstopTime = opponentInHitRange.maxHitstopTime;
+                opponentInHitRange.spikedTheBall = false;
+            }
+
+            opponentInHitRange.wasHit = true;
+            StartCoroutine(opponentInHitRange.HitstunCooldown());
+            opponentInHitRange.rb.velocity = new Vector2(hitForce * hitTrigger.offset.x, hitForce / 2);
+        }
+
+        StartCoroutine(SpikeCooldown());
+        canSpike = false;
+
+        yield break;
+    }
+
 
     public IEnumerator SpikeHitstop()
     {
-        // un-hitstop any players already in hitstop
-        /*if (ball.rb.constraints == RigidbodyConstraints2D.FreezeAll)
-        {
-            ball.rb.constraints = RigidbodyConstraints2D.None;
-        }*/
         foreach (Player player in FindObjectsOfType<Player>())
         {
             if (player.rb.constraints == RigidbodyConstraints2D.FreezeAll)
@@ -403,6 +448,7 @@ public class Player : MonoBehaviour
                 player.rb.constraints = ~RigidbodyConstraints2D.FreezePosition;
                 player.rb.velocity = player.lastVelocity;
                 player.currentHitstopTime = player.maxHitstopTime;
+                ball.rb.velocity = ball.lastVelocity;
             }
             player.spikedTheBall = false;
         }
@@ -495,22 +541,6 @@ public class Player : MonoBehaviour
     {
         if (collision.gameObject.GetComponent<Ball>() && ball.rb.constraints == RigidbodyConstraints2D.None)
         {
-            // un-hitstop the ball & any players if they're frozen
-            /*if (ball.rb.constraints == RigidbodyConstraints2D.FreezeAll)
-            {
-                ball.rb.constraints == RigidbodyConstraints2D.None;
-            }
-            foreach (Player player in FindObjectsOfType<Player>())
-            {
-                if (player.rb.constraints == RigidbodyConstraints2D.FreezeAll)
-                {
-                    player.rb.constraints = ~RigidbodyConstraints2D.FreezePosition;
-                    player.rb.velocity = player.lastVelocity;
-                    player.currentHitstopTime = player.maxHitstopTime;
-                }
-                player.spikedTheBall = false;
-            }*/
-
             // hit the ball on collision with it -- ball is hit in the direction the player is facing
             if (GetComponent<SpriteRenderer>().flipX) // moving left
             {
@@ -620,16 +650,18 @@ public class Player : MonoBehaviour
         rb.velocity = Vector2.zero;
 
         // reset default looking direction
-        GetComponent<SpriteRenderer>().flipX = false;
+        if (teamIdentity == 0) GetComponent<SpriteRenderer>().flipX = false;
+        if (teamIdentity == 1) GetComponent<SpriteRenderer>().flipX = true;
 
         // reset crosshair position
-        crosshair.transform.localPosition = new Vector2(crosshairPosX, crosshair.transform.localPosition.y);
+        if (teamIdentity == 0) crosshair.transform.localPosition = new Vector2(crosshairPosX, crosshair.transform.localPosition.y);
+        if (teamIdentity == 1) crosshair.transform.localPosition = new Vector2(-crosshairPosX, crosshair.transform.localPosition.y);
 
         // reset jump count
         currentJumpCount = maxJumpCount;
 
         // reset cooldowns, spike, and KO state
-        StopCoroutine(SpikeHitstop());
+        canSpike = false;
         canSpike = true;
         isKnockedOut = false;
         canRecover = false;

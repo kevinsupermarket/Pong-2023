@@ -136,6 +136,10 @@ public class Ball : MonoBehaviour
         if (collision.gameObject.GetComponent<Wall>() && collision.gameObject.GetComponent<Wall>().isFloor)
         {
             ownedBy = -1;
+            foreach (Player player in FindObjectsOfType<Player>())
+            {
+                if (player.spikedTheBall) player.spikedTheBall = false;
+            }
         }
     }
 }
