@@ -74,6 +74,10 @@ public class Player : MonoBehaviour
     public static Player Instance;
 
     public Image cooldownFill;
+    public AudioSource audioSpikePlayer;
+    public AudioSource audioJumpPlayer;
+    public AudioSource audioGruntPlayer;
+
 
     void Awake()
     {
@@ -166,6 +170,7 @@ public class Player : MonoBehaviour
         {
             if (isBallInSpikeRange)
             {
+                audioSpikePlayer.Play();
                 if (ball.transform.position.y >= FindObjectOfType<ScoreLine>().transform.position.y)
                 {
                     ball.wasSpikedAboveScoreLine = true;
@@ -175,6 +180,8 @@ public class Player : MonoBehaviour
                     ball.wasSpikedAboveScoreLine = false;
                 }
 
+                audioSpikePlayer.Play();
+                audioGruntPlayer.Play();
                 StartCoroutine(SpikeHitstop());
                 ball.ownedBy = teamIdentity;
                 ball.isSpiked = true;
@@ -227,7 +234,7 @@ public class Player : MonoBehaviour
             ball.ownedBy = teamIdentity;
             ball.isSpiked = true;
             spikedTheBall = true;
-
+            audioSpikePlayer.Play();
             StartCoroutine(SpikeCooldown());
             canSpike = false;
         }
@@ -337,6 +344,7 @@ public class Player : MonoBehaviour
     {
         hasJumped = true;
         rb.velocity = new Vector2(rb.velocity.x, jumpForce);
+        audioJumpPlayer.Play();
         currentJumpCount--;
     }
 
@@ -380,6 +388,7 @@ public class Player : MonoBehaviour
         if (!hasJumped)
         {
             rb.velocity = new Vector2(rb.velocity.x, jumpForce);
+            audioJumpPlayer.Play();
             currentJumpCount--;
             hasJumped = true;
         }
@@ -514,15 +523,17 @@ public class Player : MonoBehaviour
             // hit the ball on collision with it -- ball is hit in the direction the player is facing
             if (GetComponent<SpriteRenderer>().flipX) // moving left
             {
+                audioGruntPlayer.Play();
                 collision.gameObject.GetComponent<Ball>().rb.velocity = new Vector2(-hitForce / 2, hitForce);
                 collision.gameObject.GetComponent<Ball>().rb.angularVelocity -= hitForce * 2;
             }
             else if (!GetComponent<SpriteRenderer>().flipX) // moving right
             {
+                audioGruntPlayer.Play();
                 collision.gameObject.GetComponent<Ball>().rb.velocity = new Vector2(hitForce / 2, hitForce);
                 collision.gameObject.GetComponent<Ball>().rb.angularVelocity += hitForce * 2;
             }
-
+            
             collision.gameObject.GetComponent<Ball>().ownedBy = teamIdentity;
             collision.gameObject.GetComponent<Ball>().isSpiked = false;
             collision.gameObject.GetComponent<Ball>().wasSpikedAboveScoreLine = false;

@@ -61,14 +61,6 @@ public class Ball : MonoBehaviour
         }
     }
 
-    public void OnCollisionEnter2D(Collision2d collision)
-    {
-        if (collision.gameObject.tag == "CollisionTag")
-        {
-            audioBouncePlayer.Play();
-        }
-    }
-
     public IEnumerator SetSpikeDirLinePos(float hitForceX, float hitForceY)
     {
         ballSpikeDirLine.positionCount = 2;
@@ -142,6 +134,10 @@ public class Ball : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
+        if (collision.gameObject.tag == "CollisionTag")
+        {
+            audioBouncePlayer.Play();
+        }
         // reset ball state to neutral ownership when colliding with floor
         if (collision.gameObject.GetComponent<Wall>() && collision.gameObject.GetComponent<Wall>().isFloor)
         {
