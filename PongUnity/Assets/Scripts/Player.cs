@@ -188,8 +188,11 @@ public class Player : MonoBehaviour
                 if (opponentInHitRange.spikedTheBall)
                 {
                     StopCoroutine(opponentInHitRange.SpikeHitstop());
+
+                    ball.rb.constraints = RigidbodyConstraints2D.None;
+                    ball.rb.velocity = ball.lastVelocity;
+
                     opponentInHitRange.rb.constraints = ~RigidbodyConstraints2D.FreezePosition;
-                    ball.rb.constraints = ~RigidbodyConstraints2D.FreezePosition;
                     opponentInHitRange.rb.velocity = opponentInHitRange.lastVelocity;
                     opponentInHitRange.currentHitstopTime = opponentInHitRange.maxHitstopTime;
                     opponentInHitRange.spikedTheBall = false;
@@ -217,6 +220,9 @@ public class Player : MonoBehaviour
                 ball.wasSpikedAboveScoreLine = false;
             }
 
+            // save ball's velocity before being frozen; useful for restoring velocity if ball is knocked out of hitstop
+            ball.lastVelocity = ball.rb.velocity;
+
             StartCoroutine(SpikeHitstop());
             ball.ownedBy = teamIdentity;
             ball.isSpiked = true;
@@ -232,8 +238,11 @@ public class Player : MonoBehaviour
             if (opponentInHitRange.spikedTheBall)
             {
                 StopCoroutine(opponentInHitRange.SpikeHitstop());
+
+                ball.rb.constraints = RigidbodyConstraints2D.None;
+                ball.rb.velocity = ball.lastVelocity;
+
                 opponentInHitRange.rb.constraints = ~RigidbodyConstraints2D.FreezePosition;
-                ball.rb.constraints = ~RigidbodyConstraints2D.FreezePosition;
                 opponentInHitRange.rb.velocity = opponentInHitRange.lastVelocity;
                 opponentInHitRange.currentHitstopTime = opponentInHitRange.maxHitstopTime;
                 opponentInHitRange.spikedTheBall = false;
@@ -383,10 +392,10 @@ public class Player : MonoBehaviour
     public IEnumerator SpikeHitstop()
     {
         // un-hitstop any players already in hitstop
-        if (ball.rb.constraints == RigidbodyConstraints2D.FreezeAll)
+        /*if (ball.rb.constraints == RigidbodyConstraints2D.FreezeAll)
         {
-            ball.rb.constraints = ~RigidbodyConstraints2D.FreezePosition;
-        }
+            ball.rb.constraints = RigidbodyConstraints2D.None;
+        }*/
         foreach (Player player in FindObjectsOfType<Player>())
         {
             if (player.rb.constraints == RigidbodyConstraints2D.FreezeAll)
@@ -422,7 +431,7 @@ public class Player : MonoBehaviour
 
         rb.velocity = lastVelocity;
         rb.constraints = ~RigidbodyConstraints2D.FreezePosition;
-        ball.rb.constraints = ~RigidbodyConstraints2D.FreezePosition;
+        ball.rb.constraints = RigidbodyConstraints2D.None;
 
         if (GetComponent<SpriteRenderer>().flipX) // moving left
         {
@@ -484,12 +493,12 @@ public class Player : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.GetComponent<Ball>())
+        if (collision.gameObject.GetComponent<Ball>() && ball.rb.constraints == RigidbodyConstraints2D.None)
         {
             // un-hitstop the ball & any players if they're frozen
-            if (ball.rb.constraints == RigidbodyConstraints2D.FreezeAll)
+            /*if (ball.rb.constraints == RigidbodyConstraints2D.FreezeAll)
             {
-                ball.rb.constraints = ~RigidbodyConstraints2D.FreezePosition;
+                ball.rb.constraints == RigidbodyConstraints2D.None;
             }
             foreach (Player player in FindObjectsOfType<Player>())
             {
@@ -500,7 +509,7 @@ public class Player : MonoBehaviour
                     player.currentHitstopTime = player.maxHitstopTime;
                 }
                 player.spikedTheBall = false;
-            }
+            }*/
 
             // hit the ball on collision with it -- ball is hit in the direction the player is facing
             if (GetComponent<SpriteRenderer>().flipX) // moving left
@@ -606,15 +615,15 @@ public class Player : MonoBehaviour
             yield return new WaitForSeconds(2);
         }
 
+        // reset player position to spawnpoint, set speed to 0
+        transform.position = spawnPoint;
+        rb.velocity = Vector2.zero;
+
         // reset default looking direction
         GetComponent<SpriteRenderer>().flipX = false;
 
         // reset crosshair position
         crosshair.transform.localPosition = new Vector2(crosshairPosX, crosshair.transform.localPosition.y);
-
-        // reset player position to spawnpoint, set speed to 0
-        transform.position = spawnPoint;
-        rb.velocity = Vector2.zero;
 
         // reset jump count
         currentJumpCount = maxJumpCount;
@@ -631,7 +640,6 @@ public class Player : MonoBehaviour
 
         // reset constraints if player was in hitstop
         rb.constraints = ~RigidbodyConstraints2D.FreezePosition;
-        ball.rb.constraints = ~RigidbodyConstraints2D.FreezePosition;
 
         // reset collision state for walls
         foreach (WallIgnoreCol wallIgnoreCol in FindObjectsOfType<WallIgnoreCol>())
