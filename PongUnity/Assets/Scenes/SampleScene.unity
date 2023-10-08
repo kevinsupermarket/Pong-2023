@@ -220,7 +220,6 @@ MonoBehaviour:
   ballXRange: 5
   ballYRange: 5
   dustPrefab: {fileID: 0}
-  activeDust: {fileID: 0}
   cooldownFill: {fileID: 392987487}
 --- !u!50 &127389869
 Rigidbody2D:
@@ -2018,7 +2017,6 @@ MonoBehaviour:
   ballXRange: 5
   ballYRange: 5
   dustPrefab: {fileID: 7656607876354470387, guid: 2a51a3954cbbc224ba97a9ed7c3e34ad, type: 3}
-  activeDust: {fileID: 0}
   cooldownFill: {fileID: 1795025164}
 --- !u!61 &370895502
 BoxCollider2D:
@@ -2299,7 +2297,6 @@ MonoBehaviour:
   ballXRange: 5
   ballYRange: 5
   dustPrefab: {fileID: 0}
-  activeDust: {fileID: 0}
   cooldownFill: {fileID: 668407600}
 --- !u!50 &447607909
 Rigidbody2D:
@@ -2683,7 +2680,6 @@ MonoBehaviour:
   ballXRange: 5
   ballYRange: 5
   dustPrefab: {fileID: 7656607876354470387, guid: 2a51a3954cbbc224ba97a9ed7c3e34ad, type: 3}
-  activeDust: {fileID: 0}
   cooldownFill: {fileID: 236464539}
 --- !u!61 &479299526
 BoxCollider2D:
@@ -14988,7 +14984,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rb: {fileID: 1620026778}
   ballTrail: {fileID: 240507983}
-  OnExplosion: {fileID: 93396258978186672, guid: 792a5d11bdb7ce840b641254303734c6, type: 3}
+  onExplosion: {fileID: 93396258978186672, guid: 792a5d11bdb7ce840b641254303734c6, type: 3}
   lastVelocity: {x: 0, y: 0}
   moveSpeed: 5
   isSpiked: 0
@@ -15597,7 +15593,6 @@ MonoBehaviour:
   ballXRange: 5
   ballYRange: 5
   dustPrefab: {fileID: 0}
-  activeDust: {fileID: 0}
   cooldownFill: {fileID: 1414665979}
 --- !u!50 &2044327002
 Rigidbody2D:
@@ -15841,7 +15836,6 @@ MonoBehaviour:
   ballXRange: 5
   ballYRange: 5
   dustPrefab: {fileID: 0}
-  activeDust: {fileID: 0}
   cooldownFill: {fileID: 318086286}
 --- !u!50 &2080237461
 Rigidbody2D:

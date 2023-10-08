@@ -8,7 +8,7 @@ public class Ball : MonoBehaviour
     public Rigidbody2D rb;
     public TrailRenderer ballTrail;
 
-    public GameObject OnExplosion;
+    public GameObject onExplosion;
 
     public Vector2 lastVelocity;
 
@@ -120,7 +120,7 @@ public class Ball : MonoBehaviour
     {
         if (isSpiked && collision.gameObject.GetComponent<Wall>() && collision.gameObject.GetComponent<Wall>().isFloor)
         {
-            Instantiate(OnExplosion, transform.position, transform.rotation);
+            Instantiate(onExplosion, transform.position, transform.rotation);
         }
     }
 }
