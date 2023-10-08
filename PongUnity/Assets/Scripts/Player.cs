@@ -214,15 +214,23 @@ public class Player : MonoBehaviour
 
     public void Move(Vector2 direction)
     {
-        CreateDust();
-
         if (direction.x < 0)
         {
+            if (!GetComponent<SpriteRenderer>().flipX)
+            {
+                CreateDust();
+                print("Making dust! Is sprite flipped? " + GetComponent<SpriteRenderer>().flipX);
+            }
             GetComponent<SpriteRenderer>().flipX = true;
             hitTrigger.offset = new Vector2(-hitTriggerOffsetX, hitTrigger.offset.y);
         }
         else if (direction.x > 0)
         {
+            if (GetComponent<SpriteRenderer>().flipX)
+            {
+                CreateDust();
+                print("Making dust! Is sprite flipped? " + GetComponent<SpriteRenderer>().flipX);
+            }
             GetComponent<SpriteRenderer>().flipX = false;
             hitTrigger.offset = new Vector2(hitTriggerOffsetX, hitTrigger.offset.y);
         }
@@ -291,6 +299,8 @@ public class Player : MonoBehaviour
     {
         if (!hasJumped)
         {
+            CreateDust();
+
             rb.velocity = new Vector2(rb.velocity.x, jumpForce);
             currentJumpCount--;
             hasJumped = true;
