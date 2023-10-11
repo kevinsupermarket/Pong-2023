@@ -201,7 +201,7 @@ public class Player : MonoBehaviour
             if (isOpponentInHitRange)
             {
                 // knock opponent out of hitstop if they are hit during it
-                if (opponentInHitRange.spikedTheBall)
+                if (opponentInHitRange.spikedTheBall && opponentInHitRange.rb.constraints == RigidbodyConstraints2D.FreezeAll)
                 {
                     StopCoroutine(opponentInHitRange.SpikeHitstop());
 
@@ -413,7 +413,7 @@ public class Player : MonoBehaviour
 
         if (opponentInHitRange)
         {
-            if (opponentInHitRange.spikedTheBall)
+            if (opponentInHitRange.spikedTheBall && opponentInHitRange.rb.constraints == RigidbodyConstraints2D.FreezeAll)
             {
                 StopCoroutine(opponentInHitRange.SpikeHitstop());
 
@@ -649,20 +649,19 @@ public class Player : MonoBehaviour
         transform.position = spawnPoint;
         rb.velocity = Vector2.zero;
 
-        // reset default looking direction
-        if (teamIdentity == 0) GetComponent<SpriteRenderer>().flipX = false;
-        if (teamIdentity == 1) GetComponent<SpriteRenderer>().flipX = true;
-
         // reset crosshair position
         if (teamIdentity == 0) crosshair.transform.localPosition = new Vector2(crosshairPosX, crosshair.transform.localPosition.y);
         if (teamIdentity == 1) crosshair.transform.localPosition = new Vector2(-crosshairPosX, crosshair.transform.localPosition.y);
+
+        // reset default looking direction
+        if (teamIdentity == 0) GetComponent<SpriteRenderer>().flipX = false;
+        if (teamIdentity == 1) GetComponent<SpriteRenderer>().flipX = true;
 
         // reset jump count
         currentJumpCount = maxJumpCount;
 
         // reset cooldowns, spike, and KO state
-        canSpike = false;
-        canSpike = true;
+        isBallInSpikeRange = false;
         isKnockedOut = false;
         canRecover = false;
         wasHit = false;
