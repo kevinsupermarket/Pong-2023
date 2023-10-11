@@ -338,6 +338,8 @@ public class Player : MonoBehaviour
         hasJumped = true;
         rb.velocity = new Vector2(rb.velocity.x, jumpForce);
         currentJumpCount--;
+        GetComponent<Animator>().SetTrigger("isJumping");
+        /*should play jump anim */
     }
 
     public void AutoMove()
