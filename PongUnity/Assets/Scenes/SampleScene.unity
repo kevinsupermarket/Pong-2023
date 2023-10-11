@@ -199,6 +199,7 @@ MonoBehaviour:
   isAI: 1
   rb: {fileID: 127389869}
   playerTag: {fileID: 155465175}
+  crosshair: {fileID: 0}
   upKey: 264
   leftKey: 260
   rightKey: 262
@@ -208,19 +209,23 @@ MonoBehaviour:
   jumpForce: 7
   maxJumpCount: 3
   isGrounded: 0
+  lastVelocity: {x: 0, y: 0}
   hitForce: 10
   maxSpikeCooldown: 1
   currentSpikeCooldown: 0
+  maxHitstopTime: 0
   canSpike: 0
   isBallInSpikeRange: 0
-  canBeHit: 0
+  wasHit: 0
+  maxHitStunCooldown: 0
+  currentHitstunCooldown: 0
   isKnockedOut: 0
+  canRecover: 0
   maxKOCooldown: 5
+  currentKOCooldown: 0
   isOpponentInHitRange: 0
   ballXRange: 5
   ballYRange: 5
-  dustPrefab: {fileID: 0}
-  activeDust: {fileID: 0}
   cooldownFill: {fileID: 392987487}
 --- !u!50 &127389869
 Rigidbody2D:
@@ -1036,7 +1041,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   canKnockOutPlayers: 0
-  ballBounceDirection: 0
   isFloor: 1
 --- !u!1 &197012566
 GameObject:
@@ -1482,7 +1486,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   canKnockOutPlayers: 1
-  ballBounceDirection: 0
   isFloor: 0
 --- !u!1 &318086285
 GameObject:
@@ -1997,6 +2000,7 @@ MonoBehaviour:
   isAI: 0
   rb: {fileID: 370895497}
   playerTag: {fileID: 1679037975}
+  crosshair: {fileID: 624566584}
   upKey: 119
   leftKey: 97
   rightKey: 100
@@ -2006,19 +2010,23 @@ MonoBehaviour:
   jumpForce: 7
   maxJumpCount: 3
   isGrounded: 0
+  lastVelocity: {x: 0, y: 0}
   hitForce: 10
   maxSpikeCooldown: 1
   currentSpikeCooldown: 0
+  maxHitstopTime: 0
   canSpike: 0
   isBallInSpikeRange: 0
-  canBeHit: 0
+  wasHit: 0
+  maxHitStunCooldown: 0
+  currentHitstunCooldown: 0
   isKnockedOut: 0
+  canRecover: 0
   maxKOCooldown: 5
+  currentKOCooldown: 0
   isOpponentInHitRange: 0
   ballXRange: 5
   ballYRange: 5
-  dustPrefab: {fileID: 7656607876354470387, guid: 2a51a3954cbbc224ba97a9ed7c3e34ad, type: 3}
-  activeDust: {fileID: 0}
   cooldownFill: {fileID: 1795025164}
 --- !u!61 &370895502
 BoxCollider2D:
@@ -2278,6 +2286,7 @@ MonoBehaviour:
   isAI: 1
   rb: {fileID: 447607909}
   playerTag: {fileID: 1360924206}
+  crosshair: {fileID: 0}
   upKey: 119
   leftKey: 97
   rightKey: 100
@@ -2287,19 +2296,23 @@ MonoBehaviour:
   jumpForce: 7
   maxJumpCount: 3
   isGrounded: 0
+  lastVelocity: {x: 0, y: 0}
   hitForce: 10
   maxSpikeCooldown: 1
   currentSpikeCooldown: 0
+  maxHitstopTime: 0
   canSpike: 0
   isBallInSpikeRange: 0
-  canBeHit: 0
+  wasHit: 0
+  maxHitStunCooldown: 0
+  currentHitstunCooldown: 0
   isKnockedOut: 0
+  canRecover: 0
   maxKOCooldown: 5
+  currentKOCooldown: 0
   isOpponentInHitRange: 0
   ballXRange: 5
   ballYRange: 5
-  dustPrefab: {fileID: 0}
-  activeDust: {fileID: 0}
   cooldownFill: {fileID: 668407600}
 --- !u!50 &447607909
 Rigidbody2D:
@@ -2662,6 +2675,7 @@ MonoBehaviour:
   isAI: 1
   rb: {fileID: 479299521}
   playerTag: {fileID: 559432018}
+  crosshair: {fileID: 624566584}
   upKey: 264
   leftKey: 260
   rightKey: 262
@@ -2671,19 +2685,23 @@ MonoBehaviour:
   jumpForce: 7
   maxJumpCount: 3
   isGrounded: 0
+  lastVelocity: {x: 0, y: 0}
   hitForce: 10
   maxSpikeCooldown: 1
   currentSpikeCooldown: 0
+  maxHitstopTime: 0
   canSpike: 0
   isBallInSpikeRange: 0
-  canBeHit: 0
+  wasHit: 0
+  maxHitStunCooldown: 0
+  currentHitstunCooldown: 0
   isKnockedOut: 0
+  canRecover: 0
   maxKOCooldown: 5
+  currentKOCooldown: 0
   isOpponentInHitRange: 0
   ballXRange: 5
   ballYRange: 5
-  dustPrefab: {fileID: 7656607876354470387, guid: 2a51a3954cbbc224ba97a9ed7c3e34ad, type: 3}
-  activeDust: {fileID: 0}
   cooldownFill: {fileID: 236464539}
 --- !u!61 &479299526
 BoxCollider2D:
@@ -3073,7 +3091,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   canKnockOutPlayers: 1
-  ballBounceDirection: 0
   isFloor: 0
 --- !u!1 &559432017
 GameObject:
@@ -3381,7 +3398,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   canKnockOutPlayers: 1
-  ballBounceDirection: 0
   isFloor: 0
 --- !u!1 &624566584
 GameObject:
@@ -3639,7 +3655,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   canKnockOutPlayers: 1
-  ballBounceDirection: 0
   isFloor: 0
 --- !u!1 &668407598
 GameObject:
@@ -14827,6 +14842,7 @@ GameObject:
   - component: {fileID: 1620026779}
   - component: {fileID: 1620026778}
   - component: {fileID: 1620026782}
+  - component: {fileID: 1620026783}
   m_Layer: 0
   m_Name: Ball
   m_TagString: Untagged
@@ -14988,6 +15004,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rb: {fileID: 1620026778}
   ballTrail: {fileID: 240507983}
+  ballSpikeDirLine: {fileID: 1620026783}
+  ballNeutral: {fileID: 0}
+  ballHome: {fileID: 0}
+  ballAway: {fileID: 0}
   OnExplosion: {fileID: 93396258978186672, guid: 792a5d11bdb7ce840b641254303734c6, type: 3}
   lastVelocity: {x: 0, y: 0}
   moveSpeed: 5
@@ -14995,6 +15015,110 @@ MonoBehaviour:
   wasSpikedAboveScoreLine: 0
   isScored: 0
   ownedBy: 0
+--- !u!120 &1620026783
+LineRenderer:
+  serializedVersion: 2
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1620026777}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 0
+  m_LightProbeUsage: 0
+  m_ReflectionProbeUsage: 0
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_Positions:
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 1}
+  m_Parameters:
+    serializedVersion: 3
+    widthMultiplier: 1
+    widthCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    colorGradient:
+      serializedVersion: 2
+      key0: {r: 1, g: 1, b: 1, a: 1}
+      key1: {r: 1, g: 1, b: 1, a: 1}
+      key2: {r: 0, g: 0, b: 0, a: 0}
+      key3: {r: 0, g: 0, b: 0, a: 0}
+      key4: {r: 0, g: 0, b: 0, a: 0}
+      key5: {r: 0, g: 0, b: 0, a: 0}
+      key6: {r: 0, g: 0, b: 0, a: 0}
+      key7: {r: 0, g: 0, b: 0, a: 0}
+      ctime0: 0
+      ctime1: 65535
+      ctime2: 0
+      ctime3: 0
+      ctime4: 0
+      ctime5: 0
+      ctime6: 0
+      ctime7: 0
+      atime0: 0
+      atime1: 65535
+      atime2: 0
+      atime3: 0
+      atime4: 0
+      atime5: 0
+      atime6: 0
+      atime7: 0
+      m_Mode: 0
+      m_ColorSpace: -1
+      m_NumColorKeys: 2
+      m_NumAlphaKeys: 2
+    numCornerVertices: 0
+    numCapVertices: 0
+    alignment: 0
+    textureMode: 0
+    textureScale: {x: 1, y: 1}
+    shadowBias: 0.5
+    generateLightingData: 0
+  m_MaskInteraction: 0
+  m_UseWorldSpace: 1
+  m_Loop: 0
+  m_ApplyActiveColorSpace: 1
 --- !u!1 &1644840362
 GameObject:
   m_ObjectHideFlags: 0
@@ -15576,6 +15700,7 @@ MonoBehaviour:
   isAI: 1
   rb: {fileID: 2044327002}
   playerTag: {fileID: 1788135973}
+  crosshair: {fileID: 0}
   upKey: 119
   leftKey: 97
   rightKey: 100
@@ -15585,19 +15710,23 @@ MonoBehaviour:
   jumpForce: 7
   maxJumpCount: 3
   isGrounded: 0
+  lastVelocity: {x: 0, y: 0}
   hitForce: 10
   maxSpikeCooldown: 1
   currentSpikeCooldown: 0
+  maxHitstopTime: 0
   canSpike: 0
   isBallInSpikeRange: 0
-  canBeHit: 0
+  wasHit: 0
+  maxHitStunCooldown: 0
+  currentHitstunCooldown: 0
   isKnockedOut: 0
+  canRecover: 0
   maxKOCooldown: 5
+  currentKOCooldown: 0
   isOpponentInHitRange: 0
   ballXRange: 5
   ballYRange: 5
-  dustPrefab: {fileID: 0}
-  activeDust: {fileID: 0}
   cooldownFill: {fileID: 1414665979}
 --- !u!50 &2044327002
 Rigidbody2D:
@@ -15820,6 +15949,7 @@ MonoBehaviour:
   isAI: 1
   rb: {fileID: 2080237461}
   playerTag: {fileID: 1507467084}
+  crosshair: {fileID: 0}
   upKey: 264
   leftKey: 260
   rightKey: 262
@@ -15829,19 +15959,23 @@ MonoBehaviour:
   jumpForce: 7
   maxJumpCount: 3
   isGrounded: 0
+  lastVelocity: {x: 0, y: 0}
   hitForce: 10
   maxSpikeCooldown: 1
   currentSpikeCooldown: 0
+  maxHitstopTime: 0
   canSpike: 0
   isBallInSpikeRange: 0
-  canBeHit: 0
+  wasHit: 0
+  maxHitStunCooldown: 0
+  currentHitstunCooldown: 0
   isKnockedOut: 0
+  canRecover: 0
   maxKOCooldown: 5
+  currentKOCooldown: 0
   isOpponentInHitRange: 0
   ballXRange: 5
   ballYRange: 5
-  dustPrefab: {fileID: 0}
-  activeDust: {fileID: 0}
   cooldownFill: {fileID: 318086286}
 --- !u!50 &2080237461
 Rigidbody2D:
