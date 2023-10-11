@@ -203,7 +203,7 @@ MonoBehaviour:
   upKey: 264
   leftKey: 260
   rightKey: 262
-  spikeKey: 256
+  spikeKey: 261
   moveSpeed: 4000
   maxMoveSpeed: 3
   jumpForce: 7
@@ -2258,7 +2258,7 @@ MonoBehaviour:
   upKey: 119
   leftKey: 97
   rightKey: 100
-  spikeKey: 32
+  spikeKey: 115
   moveSpeed: 4000
   maxMoveSpeed: 3
   jumpForce: 7
@@ -2443,7 +2443,7 @@ MonoBehaviour:
   upKey: 119
   leftKey: 97
   rightKey: 100
-  spikeKey: 32
+  spikeKey: 115
   moveSpeed: 4000
   maxMoveSpeed: 3
   jumpForce: 7
@@ -2835,7 +2835,7 @@ MonoBehaviour:
   upKey: 264
   leftKey: 260
   rightKey: 262
-  spikeKey: 256
+  spikeKey: 261
   moveSpeed: 4000
   maxMoveSpeed: 3
   jumpForce: 7
@@ -5835,7 +5835,7 @@ MonoBehaviour:
   upKey: 119
   leftKey: 97
   rightKey: 100
-  spikeKey: 32
+  spikeKey: 115
   moveSpeed: 4000
   maxMoveSpeed: 3
   jumpForce: 7
@@ -6086,7 +6086,7 @@ MonoBehaviour:
   upKey: 264
   leftKey: 260
   rightKey: 262
-  spikeKey: 256
+  spikeKey: 261
   moveSpeed: 4000
   maxMoveSpeed: 3
   jumpForce: 7
