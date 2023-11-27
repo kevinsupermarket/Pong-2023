@@ -37,7 +37,7 @@ public class Player : MonoBehaviour
     public float jumpForce;
     public int maxJumpCount;
     int currentJumpCount;
-    bool hasJumped;
+    public bool hasJumped;
     public bool isGrounded;
     public Vector2 lastVelocity;
 
@@ -321,6 +321,8 @@ public class Player : MonoBehaviour
         hasJumped = true;
         rb.velocity = new Vector2(rb.velocity.x, jumpForce);
         currentJumpCount--;
+        GetComponent<Animator>().SetTrigger("isJumping");
+        /*should play jump anim */
     }
 
     public void AutoMove()
