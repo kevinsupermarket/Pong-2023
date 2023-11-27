@@ -10,6 +10,8 @@ public class Ball : MonoBehaviour
     public LineRenderer ballSpikeDirLine;
     public Sprite ballNeutral, ballHome, ballAway;
 
+    public GameObject ballExplosionParticle;
+
     public Vector2 lastVelocity;
 
     public float moveSpeed;
@@ -140,6 +142,11 @@ public class Ball : MonoBehaviour
             {
                 if (player.spikedTheBall) player.spikedTheBall = false;
             }
+        }
+
+        if (isSpiked && collision.gameObject.GetComponent<Wall>() && collision.gameObject.GetComponent<Wall>().isFloor)
+        {
+            Instantiate(ballExplosionParticle, transform.position, transform.rotation);
         }
     }
 }
