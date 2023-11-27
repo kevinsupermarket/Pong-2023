@@ -37,7 +37,7 @@ public class Player : MonoBehaviour
     public float jumpForce;
     public int maxJumpCount;
     int currentJumpCount;
-    bool hasJumped;
+    public bool hasJumped;
     public bool isGrounded;
     public Vector2 lastVelocity;
 

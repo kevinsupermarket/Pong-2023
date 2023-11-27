@@ -24,7 +24,7 @@ public class AnimationController : MonoBehaviour
             animator.SetBool("isRunning", false);
         }
 
-        if (Input.GetKeyDown(_player.upKey))
+        if (_player.hasJumped)
         {
             animator.SetBool("isJumping", true);
             animator.SetBool("isRunning", false);
@@ -34,12 +34,12 @@ public class AnimationController : MonoBehaviour
             animator.SetBool("isJumping", false);
         }
 
-        if (Input.GetKeyDown(_player.spikeKey) && !_player.isGrounded)
+        if ((Input.GetKeyDown(_player.spikeKey) || !_player.canSpike) && !_player.isGrounded)
         {
             animator.SetBool("isSpiking", true);
             animator.SetBool("isJumping", false);
         }
-        if (Input.GetKeyUp(_player.spikeKey) && !_player.isGrounded)
+        if ((Input.GetKeyUp(_player.spikeKey) || _player.canSpike) && !_player.isGrounded)
         {
             animator.SetBool("isSpiking", false);
         }
