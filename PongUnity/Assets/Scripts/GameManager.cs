@@ -1,9 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Unity.UI;
 using TMPro;
-using UnityEditor.SearchService;
 
 public class GameManager : MonoBehaviour
 {
@@ -12,6 +10,8 @@ public class GameManager : MonoBehaviour
     public TMP_Text homeScoreText;
     public TMP_Text awayScoreText;
     public TMP_Text winText;
+
+    public AudioSource pointScoredSound;
 
     Player[] players;
     Ball ball;
@@ -40,11 +40,11 @@ public class GameManager : MonoBehaviour
 
         if (homeScore == maxScore)
         {
-            winText.text = "HOME TEAM IS\nWINNER\n\nPRESS " + startKey + " TO\nRESTART";
+            winText.text = "HOME TEAM WINS\nPRESS " + startKey + " TO\nRESTART";
         }
         else if (awayScore == maxScore)
         {
-            winText.text = "AWAY TEAM IS\nWINNER\n\nPRESS " + startKey + " TO\nRESTART";
+            winText.text = "AWAY TEAM WINS\nPRESS " + startKey + " TO\nRESTART";
         }
 
         if (gameOver && Input.GetKeyDown(startKey))

@@ -1,9 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
-using UnityEditor.Tilemaps;
 using UnityEngine;
-using UnityEngine.U2D;
 using UnityEngine.UI;
 
 public class Player : MonoBehaviour
@@ -21,6 +19,8 @@ public class Player : MonoBehaviour
     public Rigidbody2D rb;
     public TMP_Text playerTag;
     public GameObject crosshair;
+    public GameObject jumpParticlePrefab;
+    public Transform jumpParticlePoint;
 
     // controls
     public KeyCode upKey;
@@ -70,6 +70,10 @@ public class Player : MonoBehaviour
     public float ballXRange;
     public float ballYRange;
 
+    // audio
+    public AudioSource audioSpikePlayer;
+    public AudioSource audioJumpPlayer;
+    public AudioSource audioGruntPlayer;
 
     public static Player Instance;
 
@@ -191,6 +195,9 @@ public class Player : MonoBehaviour
                     ball.wasSpikedAboveScoreLine = false;
                 }
 
+                audioSpikePlayer.Play();
+                audioGruntPlayer.Play();
+
                 StartCoroutine(SpikeHitstop());
                 ball.ownedBy = teamIdentity;
                 ball.isSpiked = true;
@@ -230,12 +237,14 @@ public class Player : MonoBehaviour
         if (isAI && isBallInSpikeRange && canSpike)
         {
             StartCoroutine(AutoSpike());
+            audioSpikePlayer.Play();
         }
 
         // AI hit opponents
         if (isAI && isOpponentInHitRange && canSpike)
         {
             StartCoroutine(AutoHitOpponents());
+            audioGruntPlayer.Play();
         }
 
 
@@ -320,9 +329,9 @@ public class Player : MonoBehaviour
     {
         hasJumped = true;
         rb.velocity = new Vector2(rb.velocity.x, jumpForce);
+        Instantiate(jumpParticlePrefab, jumpParticlePoint);
+        audioJumpPlayer.Play();
         currentJumpCount--;
-        GetComponent<Animator>().SetTrigger("isJumping");
-        /*should play jump anim */
     }
 
     public void AutoMove()
@@ -368,6 +377,8 @@ public class Player : MonoBehaviour
         if (!hasJumped)
         {
             rb.velocity = new Vector2(rb.velocity.x, jumpForce);
+            Instantiate(jumpParticlePrefab, jumpParticlePoint);
+            audioJumpPlayer.Play();
             currentJumpCount--;
             hasJumped = true;
         }
@@ -546,11 +557,13 @@ public class Player : MonoBehaviour
             // hit the ball on collision with it -- ball is hit in the direction the player is facing
             if (GetComponent<SpriteRenderer>().flipX) // moving left
             {
+                audioGruntPlayer.Play();
                 collision.gameObject.GetComponent<Ball>().rb.velocity = new Vector2(-hitForce / 2, hitForce);
                 collision.gameObject.GetComponent<Ball>().rb.angularVelocity -= hitForce * 2;
             }
             else if (!GetComponent<SpriteRenderer>().flipX) // moving right
             {
+                audioGruntPlayer.Play();
                 collision.gameObject.GetComponent<Ball>().rb.velocity = new Vector2(hitForce / 2, hitForce);
                 collision.gameObject.GetComponent<Ball>().rb.angularVelocity += hitForce * 2;
             }

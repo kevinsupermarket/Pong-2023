@@ -1,8 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Globalization;
 using UnityEngine;
-using static UnityEditor.Timeline.TimelinePlaybackControls;
 
 public class Goal : MonoBehaviour
 {
@@ -35,6 +33,10 @@ public class Goal : MonoBehaviour
             if (ball && !ball.isScored && ball.isSpiked && ball.ownedBy != -1 && ball.wasSpikedAboveScoreLine)
             {
                 ball.isScored = true;
+
+                // play score sound & create ball explosion effect on successful point scored
+                GameManager.Instance.pointScoredSound.Play();
+                Instantiate(Ball.Instance.ballExplosionParticle, transform.position, transform.rotation);
 
                 if (ball.ownedBy == 0)
                 {

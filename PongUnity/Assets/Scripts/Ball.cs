@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class Ball : MonoBehaviour
@@ -148,11 +147,6 @@ public class Ball : MonoBehaviour
             {
                 if (player.spikedTheBall) player.spikedTheBall = false;
             }
-        }
-
-        if (isSpiked && collision.gameObject.GetComponent<Wall>() && collision.gameObject.GetComponent<Wall>().isFloor)
-        {
-            Instantiate(ballExplosionParticle, transform.position, transform.rotation);
         }
     }
 }
