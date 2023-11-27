@@ -1,9 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
-using UnityEditor.Tilemaps;
 using UnityEngine;
-using UnityEngine.U2D;
 using UnityEngine.UI;
 
 public class Player : MonoBehaviour
@@ -21,6 +19,8 @@ public class Player : MonoBehaviour
     public Rigidbody2D rb;
     public TMP_Text playerTag;
     public GameObject crosshair;
+    public GameObject jumpParticle;
+    public Transform jumpParticlePoint;
 
     // controls
     public KeyCode upKey;
@@ -335,9 +335,10 @@ public class Player : MonoBehaviour
 
     public void Jump()
     {
-        hasJumped = true;
         rb.velocity = new Vector2(rb.velocity.x, jumpForce);
+        Instantiate(jumpParticle, jumpParticlePoint.position, Quaternion.identity);
         currentJumpCount--;
+        hasJumped = true;
     }
 
     public void AutoMove()
@@ -380,6 +381,7 @@ public class Player : MonoBehaviour
         if (!hasJumped)
         {
             rb.velocity = new Vector2(rb.velocity.x, jumpForce);
+            Instantiate(jumpParticle, jumpParticlePoint.position, Quaternion.identity);
             currentJumpCount--;
             hasJumped = true;
         }
