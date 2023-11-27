@@ -4,19 +4,44 @@ using UnityEngine;
 
 public class AnimationController : MonoBehaviour
 {
-    private Animator animator;
+    public Animator animator;
+    Player _player;
 
     private void Start()
     {
         animator = GetComponent<Animator>();
+        _player = GetComponent<Player>();
     }
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (_player.rb.velocity.x != 0 && _player.isGrounded)
         {
-            // Trigger the animation transition when the Space key is pressed
-            animator.SetBool("IsSpiking", true);
+            animator.SetBool("isRunning", true);
+        }
+        if (_player.rb.velocity.x == 0 && _player.isGrounded)
+        {
+            animator.SetBool("isRunning", false);
+        }
+
+        if (Input.GetKeyDown(_player.upKey))
+        {
+            animator.SetBool("isJumping", true);
+            animator.SetBool("isRunning", false);
+        }
+        if (_player.rb.velocity.y <= 0)
+        {
+            animator.SetBool("isJumping", false);
+        }
+
+        if (Input.GetKeyDown(_player.spikeKey) && !_player.isGrounded)
+        {
+            animator.SetBool("isSpiking", true);
+            animator.SetBool("isJumping", false);
+        }
+        if (Input.GetKeyUp(_player.spikeKey) && !_player.isGrounded)
+        {
+            animator.SetBool("isSpiking", false);
         }
     }
 }
