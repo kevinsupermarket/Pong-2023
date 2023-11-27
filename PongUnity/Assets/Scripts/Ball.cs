@@ -24,6 +24,8 @@ public class Ball : MonoBehaviour
 
     Vector2 spawnPoint;
 
+    public AudioSource audioBouncePlayer;
+
     public static Ball Instance;
 
 
@@ -134,6 +136,10 @@ public class Ball : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
+        if (collision.gameObject.tag == "CollisionTag")
+        {
+            audioBouncePlayer.Play();
+        }
         // reset ball state to neutral ownership when colliding with floor
         if (collision.gameObject.GetComponent<Wall>() && collision.gameObject.GetComponent<Wall>().isFloor)
         {
